@@ -20,6 +20,8 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException {
         stage.getIcons().add(new Image("Logo.png"));
 
+
+
         //Nombre de la pestaña
         stage.setTitle("TAKEN Menu");
 
