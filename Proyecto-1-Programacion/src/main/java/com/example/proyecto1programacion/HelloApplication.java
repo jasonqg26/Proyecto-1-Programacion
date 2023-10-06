@@ -20,6 +20,10 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException {
         stage.getIcons().add(new Image("Logo.png"));
 
+        Image img = new Image("Fondo.png");
+
+
+
 
 
         //Nombre de la pestaña

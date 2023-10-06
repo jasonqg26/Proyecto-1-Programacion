@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.transform.Transform;
@@ -74,6 +75,7 @@ public class InterFACE {
 
         Button btt_Menu_Cerrar = new Button("Close");//Se crea el botton cerrar
 
+
         //Se le da estilo al boton cerrar
         btt_Menu_Cerrar.setStyle("-fx-border-width: 2;" + "-fx-border-color: #000000;" + "-fx-text-fill: #FF310F;" +
                                  "-fx-border-radius: 10;" + "-fx-background-radius: 10;");
@@ -103,13 +105,19 @@ public class InterFACE {
                                 //Proxima Scena del Juego
 
 
-        TilePane tlp_pane = new TilePane();
+      BorderPane br = new BorderPane();
 
-        Label lb_k = new Label("Hola mi nombre es jason");
 
-        tlp_pane.getChildren().add(lb_k);
 
-        Scene scene = new Scene(tlp_pane,700,700);
+        Label P = new Label("Proximamente un Juego");//Se crea la etiqueta
+        P.setStyle("-fx-text-fill: #5790B9;");//Se le un estilo
+        P.setFont(new Font("Kristen ITC",50));//Se le asigna la fuente al titulo
+
+        br.setCenter(P);
+
+
+
+        Scene scene = new Scene(br,600,600);
         return scene;
     }
 }
