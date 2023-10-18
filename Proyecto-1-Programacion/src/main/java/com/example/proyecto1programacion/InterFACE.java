@@ -3,6 +3,7 @@ package com.example.proyecto1programacion;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -107,9 +108,9 @@ Button btt_Menu_Jugar = new Button("Play");
 
     //                                          Intancia de la genreacion de matriz
       GeneradorDeMatriz generador = new GeneradorDeMatriz();//Se inistancia la clase de generacion de matriz
-      GeneradorDeMatriz.Puzzle_15 puzzle = generador.new Puzzle_15();//Se hace uso de su constructor
 
-      int MatrixGame [][] = puzzle.Board;//Se guarda la matris generada en una matrix para usarse con mayor facilidad
+
+      int MatrixGame [][] = generador.Board;//Se guarda la matris generada en una matrix para usarse con mayor facilidad
 
     //----------------------------------------------------------------------------------------------------------------
 
@@ -141,6 +142,8 @@ Button btt_Menu_Jugar = new Button("Play");
         gridPane.add(button_1,logic.Getcolum(MatrixGame,1),logic.GetRow(MatrixGame,1));
 
         button_1.setStyle("-fx-border-width: 2;" + "-fx-border-color: #000000;" + "-fx-background-color: #FFFFFF;");
+
+
 
        //-----------------------------------------------
 
