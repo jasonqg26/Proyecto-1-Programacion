@@ -11,24 +11,7 @@ public class GeneradorDeMatriz {
 
 
         StartBoard();//Crea aleatoriamente el tabalero del juego
-        //do {
-         //   printBoard();//imprese el tabale em consola
 
-         //   System.out.println("\n");
-
-
-            //Pide filas y columnas
-          //  int fila = Integer.parseInt(JOptionPane.showInputDialog("Ingrese valor de fila"));
-           // int columna = Integer.parseInt(JOptionPane.showInputDialog("Ingrese valor de la columna"));
-
-            //Define si un movimiento es valido o no
-           // if (movimientoValido(fila, columna))
-                //si, si es valido realiza la jugada
-              //  haceJugada(fila,columna);
-
-
-            //sigue en bloque hasta que no se detecte que el juego esta completado
-       // }while (!juegoCompletado());
 
     }
     //Este metodo inicializa el tablero dejando el espacio em blanco y asignando los numeros del 1 al 15

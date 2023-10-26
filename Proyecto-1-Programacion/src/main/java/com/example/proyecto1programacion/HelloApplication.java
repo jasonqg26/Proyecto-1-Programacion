@@ -6,6 +6,7 @@ import javafx.event.EventHandler;
 
 import javafx.scene.image.Image;
 
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -15,6 +16,7 @@ import java.io.IOException;
 public class HelloApplication extends Application {
 
     InterFACE interFace = new InterFACE();
+    Stage stage;
     //Se intancia la clase interface
     @Override
     public void start(Stage stage) throws IOException {
@@ -63,8 +65,8 @@ public class HelloApplication extends Application {
                 }
             });
 
-
     }
+
 
     public static void main(String[] args) {
 
