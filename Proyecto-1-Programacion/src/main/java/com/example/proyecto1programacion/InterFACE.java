@@ -1,5 +1,6 @@
 package com.example.proyecto1programacion;
 
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -14,6 +15,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.util.Objects;
 
@@ -21,14 +24,14 @@ import java.util.Objects;
 public class InterFACE {
 
 Logic logic = new Logic();
+GeneradorDeMatriz generador = new GeneradorDeMatriz();//Se inistancia la clase de generacion de matriz
+int MatrixGame [][] = generador.Board;//Se guarda la matris generada en una matrix para usarse con mayor facilidad
 
 
 
 //--------------------------------------------------------------------------------------------------------------------
 
 //Los botones se intancia globalmente para poder usar su evento en el main
-Button btt_Reiniciar_left = new Button();
-Button btt_Reiniciar_ring = new Button();
 Button btt_Menu_Jugar = new Button("Play");
 
 
@@ -108,17 +111,11 @@ Button btt_Menu_Jugar = new Button("Play");
         }
 
 //----------------------------------------------------------------------------------------------------------------------
-    public Scene getSceneGame(){//Scene del juego
+    public Scene getSceneGame(Stage stage){
 
-    //--------------------------------------------------------------------------------------------------------------
-
-    //                                          Intancia de la genreacion de matriz
-      GeneradorDeMatriz generador = new GeneradorDeMatriz();//Se inistancia la clase de generacion de matriz
+        //Scene del juego
 
 
-      int MatrixGame [][] = generador.Board;//Se guarda la matris generada en una matrix para usarse con mayor facilidad
-
-    //----------------------------------------------------------------------------------------------------------------
 
     //                                           Instancia del contenedor padre
       BorderPane borderPane = new BorderPane();//El contenedor padre contiene a todos los hijos de la scena
@@ -126,6 +123,7 @@ Button btt_Menu_Jugar = new Button("Play");
     //-----------------------------------------------------------------------------------------------------------------
 
     //                                        Interfaz del juego(Los cuadrados)
+        //                                      creacion del gridPane
 
       GridPane gridPane = new GridPane();//Cuadriculas del juego
       gridPane.setVgap(0.5);
@@ -133,40 +131,66 @@ Button btt_Menu_Jugar = new Button("Play");
       borderPane.setCenter(gridPane);//Se le asigna una posicion
 
 
-
+    //---------------------------------------------------------------------------------------------------------------
+    //                                            creacion de los botones
+     //Se crea 15 botones
         for (int i = 0; i <= 15; i++) {
 
             Button button = new Button();
-
+            //Se le asigna una imagen nueva a cada boton segun el indice del for
             Image img_1 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Numeros/" + i + ".png")));
             ImageView imgV_1 = new ImageView(img_1);
-
+            //Tanaño minimo de los btones
             button.setMinSize(100, 100);
-
+            //Se le asigana la imagagen antes creada
             button.setGraphic(imgV_1);
-
+            //Se agrega al gridPane
             gridPane.add(button, logic.Getcolum(MatrixGame, i), logic.GetRow(MatrixGame, i));
-
+            //Se le da los estylos nesesarios
             button.setStyle("-fx-border-width: 2;" + "-fx-border-color: #000000;" + "-fx-background-color: #FFFFFF;");
 
             // Agrega propiedades personalizadas para la fila y la columna a cada botón
             button.getProperties().put("fila", logic.GetRow(MatrixGame, i));
             button.getProperties().put("columna", logic.Getcolum(MatrixGame, i));
 
+
+            int finalI = i;
+
+            //Lo que sucede al precionar algun botton de los ateriormente creados
             button.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
                     // Obtiene la fila y la columna del botón presionado
                     int fila = Integer.valueOf((button.getProperties().get("fila")).toString());
                     int columna = Integer.valueOf((button.getProperties().get("columna")).toString());
-
-                   if (generador.movimientoValido(fila,columna))
+                    //Verifica si la jugada es valida si lo es realiza el moviemto
+                   if (generador.movimientoValido(fila,columna)){
+                       //Realiza el movimiento
                        generador.haceJugada(fila,columna);
-
-                    generador.printBoard();
+                       //Actualiza el stage
+                        ActualizarEcenario(stage);
+                   }else {
+                    // Cambiar el estilo del botón cuando el movimiento no es válido
+                       if (finalI != 0){
+                           //Crea una imagen de que el boton presionado no se puede mover
+                       Image img_2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Numero Invalido/" + finalI + ".png")));
+                       ImageView imgV_2 = new ImageView(img_2);
+                       button.setGraphic(imgV_2);}
+                       //Contrala el tiempo en que la imagen de error se mantiene
+                       PauseTransition pauseTransition = new PauseTransition(Duration.seconds(2));
+                       pauseTransition.setOnFinished(new EventHandler<ActionEvent>() {
+                           @Override
+                           public void handle(ActionEvent actionEvent) {
+                               //Despues del tiempo se vuelve a la imagen anterior
+                               button.setGraphic(imgV_1);
+                           }
+                       });//end de que ahcer despues de los dos segundos
+                       //Inicia el tiempo
+                       pauseTransition.play();
+                    }//End del else
                 }
-            });
-        }
+            });//End del evento
+        }//End del for
 
 
 
@@ -208,6 +232,8 @@ Button btt_Menu_Jugar = new Button("Play");
       //                                     Boton de Reiniciar a la izquierda
 
       HBox hBox_left = new HBox();
+      Button btt_Reiniciar_left = new Button();
+
       btt_Reiniciar_left.setMinSize(100,100);
       hBox_left.getChildren().add(btt_Reiniciar_left);
       hBox_left.setAlignment(Pos.CENTER);
@@ -225,12 +251,30 @@ Button btt_Menu_Jugar = new Button("Play");
 
 
 
+        //Evento del botton de reinicio de la izquierda
+      btt_Reiniciar_left.setOnAction(new EventHandler<ActionEvent>() {
+          @Override
+          public void handle(ActionEvent actionEvent) {
+              int [][] temp = new int[4][4];
+
+              generador.Board = temp;
+              generador.StartBoard();
+              MatrixGame = generador.Board;
+              ActualizarEcenario(stage);
+
+
+
+          }
+      });
+
+
+
       //----------------------------------------------------------------------------------------------------------------
 
       //                                          Boton de Reiniciar a la Derecha
 
         HBox hBox_right = new HBox();
-
+        Button btt_Reiniciar_ring = new Button();
 
       btt_Reiniciar_ring.setMinSize(100,100);
         hBox_right.getChildren().add(btt_Reiniciar_ring);
@@ -248,8 +292,28 @@ Button btt_Menu_Jugar = new Button("Play");
         BorderPane.setMargin(hBox_right,new Insets(0,30,0,25));
 
 
+        //Evento del botton de reinicio de la Derecha
+        btt_Reiniciar_ring.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                int [][] temp = new int[4][4];
+
+                generador.Board = temp;
+                generador.StartBoard();
+                MatrixGame = generador.Board;
+
+
+                ActualizarEcenario(stage);
+
+            }
+        });
+
+
     //-----------------------------------------------------------------------------------------------------------------
-      HBox hBox_Top = new HBox();
+      //                                          titulo del juego
+
+
+        HBox hBox_Top = new HBox();
       Label lb_Titulo = new Label("TAKES GAME");
       lb_Titulo.setStyle("-fx-text-fill: #5790B9;");//Se da le asigna el color
       lb_Titulo.setFont(new Font("Kristen ITC",32));//Se le asigna la fuente al titulo
@@ -264,5 +328,7 @@ Button btt_Menu_Jugar = new Button("Play");
 
     }
 
-
+public void ActualizarEcenario(Stage stage){
+        stage.setScene(getSceneGame(stage));
+}
 }

@@ -41,35 +41,17 @@ public class HelloApplication extends Application {
                 @Override
                 public void handle(ActionEvent actionEvent) { //Evento del botton play del menu
                     stage.setTitle("TAKEN Game");//Se cambia el titulo
-                    stage.setScene(interFace.getSceneGame());//Se crea la scena del menu
+                    stage.setScene(interFace.getSceneGame(stage));//Se crea la scena del menu
                     stage.centerOnScreen();
 
                 }
             });
 
-            interFace.btt_Reiniciar_left.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    stage.setScene(interFace.getSceneGame());
-                    stage.centerOnScreen();
 
-                }
-            });
-
-            interFace.btt_Reiniciar_ring.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent actionEvent) {
-                    stage.setScene(interFace.getSceneGame());
-                    stage.centerOnScreen();
-
-                }
-            });
 
     }
 
-
     public static void main(String[] args) {
-
 
 launch();
 

@@ -74,12 +74,16 @@ public class GeneradorDeMatriz {
             }
         }
 
-        //Verifica que el moviento sea legal
-        if (VacioF == i-1 || VacioF == i+1 )
-            movimiento_valido_row = true;
 
-        if (VacioC == j-1 || VacioC == j+1)
+        //Verifica que el moviento sea legal
+        if ((VacioF == i-1 || VacioF == i+1) && VacioC == j){
+            movimiento_valido_row = true;
+           }
+
+        if ((VacioC == j-1 || VacioC == j+1 )&& VacioF == i){
             movimiento_valido_colum = true;
+           }
+
 
 
         //Verifica que el movimineto no sea diagonal
