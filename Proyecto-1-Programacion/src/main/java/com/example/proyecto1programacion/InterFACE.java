@@ -179,10 +179,13 @@ Button btt_Menu_Instrucciones = new Button("Instructions");
     returnButton.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 26));
 
     // Asigna un evento al botón para volver al menú principal y cerrar las instrucciones
-    returnButton.setOnAction(event -> {
-        stage.setScene(getSeceneMenu());
-        instructionsStage.close();
-    });
+        returnButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                stage.setScene(getSeceneMenu());
+                instructionsStage.close();
+            }
+        });
 
     // Agrega el botón al contenedor de instrucciones
     instructionsPane.getChildren().add(returnButton);
@@ -426,7 +429,6 @@ Button btt_Menu_Instrucciones = new Button("Instructions");
 public void ActualizarEcenario(Stage stage){
         stage.setScene(getSceneGame(stage));
 }
-
     public Scene getSceneWin (){
 
         // -------------------------------------------------------------------------------------------------------------
