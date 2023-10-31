@@ -76,8 +76,8 @@ public Scene getSceneWelcome (){
     // se crea una label que indica la bienvenida al jugador
     Label labelWelcome = new Label("Welcome");
     labelWelcome.setStyle(
-            "-fx-text-fill: #70fd00;" + // Color del texto
-                    "-fx-font-family: 'Showcard Gothic';" + // Fuente
+            "-fx-text-fill: #26c9e5;" + // Color del texto
+                    "-fx-font-family: 'Kristen ITC';" + // Fuente
                     "-fx-font-size: 100px;" + // Tamaño de fuente
                     "-fx-effect: dropshadow(three-pass-box, #000, 10, 0, 0, 0);" // Efecto de sombra
     );
@@ -101,7 +101,7 @@ public Scene getSceneWelcome (){
     // se crea un Txt que obtendra el name del usuario
     TextField Txt_Name = new TextField();
     // Establece el tamaño y la fuente del TextField
-    Txt_Name.setFont(new Font("Comic Sans MS", 18));
+    Txt_Name.setFont(new Font("Kristen ITC", 18));
     Txt_Name.setMaxSize(400,100); // tamaño del Txt
 
 
@@ -536,7 +536,7 @@ public void ActualizarEcenario(Stage stage){
         Label labelWin = new Label("You win");
         labelWin.setStyle(
                 "-fx-text-fill: #70fd00;" + // Color del texto
-                        "-fx-font-family: 'Showcard Gothic';" + // Fuente
+                        "-fx-font-family: 'Kristen ITC';" + // Fuente
                         "-fx-font-size: 100px;" + // Tamaño de fuente
                         "-fx-effect: dropshadow(three-pass-box, #000, 10, 0, 0, 0);" // Efecto de sombra
         );

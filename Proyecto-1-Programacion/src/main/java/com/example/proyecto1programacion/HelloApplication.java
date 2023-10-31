@@ -31,7 +31,7 @@ public class HelloApplication extends Application {
         stage.setTitle("TAKEN Menu");
 
 
-            stage.setScene(interFace.getSeceneMenu());//Se crea la Scene del Menu
+            stage.setScene(interFace.getSceneWelcome());//Se crea la Scene del Menu
             stage.initStyle(StageStyle.UNDECORATED);//Se elimina todas las opciones menos la equis roja
             stage.show();
             stage.centerOnScreen();
