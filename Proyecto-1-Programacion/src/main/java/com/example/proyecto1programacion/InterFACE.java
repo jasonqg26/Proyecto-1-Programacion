@@ -283,6 +283,8 @@ Button btt_Menu_Instrucciones = new Button("Instructions");
                        //Inicia el tiempo
                        pauseTransition.play();
                     }//End del else
+                    if(generador.juegoCompletado())
+                        ActualizarEscenarioWin(stage);
                 }
             });//End del evento
         }//End del for
@@ -464,7 +466,6 @@ public void ActualizarEcenario(Stage stage){
 
         // se crea un boton de volver a jugar
         Button btt_playAgain = new Button("Play Again");
-
         btt_playAgain.setFont(new Font("Comic Sans MS",26));//Se le asigna la fuente al botton
 
         btt_playAgain.setStyle("-fx-border-width: 2;" + "-fx-border-color: #000000;" + "-fx-text-fill: #FF310F;" +
@@ -478,6 +479,16 @@ public void ActualizarEcenario(Stage stage){
         b_Pane.setBottom(vBox_Bottom);// se establece el boton
 
         BorderPane.setMargin(vBox_Bottom,new Insets(0,0,50,0));
+
+        btt_playAgain.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+
+                stage.setScene(getSceneGame(stage));
+                stage.centerOnScreen();
+
+            }
+        });
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -517,6 +528,12 @@ public void ActualizarEcenario(Stage stage){
         Scene scene = new Scene(b_Pane, 500, 500);
 
         return scene;
+    }
+
+    public void ActualizarEscenarioWin (Stage stage){
+
+        stage.setScene(getSceneWin());
+        stage.centerOnScreen();
     }
 
 
