@@ -10,6 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -47,6 +48,87 @@ Button btt_Menu_Instrucciones = new Button("Instructions");
 
 
 //-------------------------------------------------------------------------------------------------------------------
+public Scene getSceneWelcome (){
+                                         //Escena de Bienvenida
+    // -------------------------------------------------------------------------------------------------------------
+    VBox vBox_Welcome = new VBox(); // se instancia el contendor//
+    vBox_Welcome.setSpacing(10); // espacio entre los objetos
+    //--------------------------------------------------------------------------------------------------------------
+
+
+    // se le coloca una imagen como fondo a la escena
+    Image img_fondo = new Image("Fondo.png");
+
+    BackgroundImage bImg = new BackgroundImage(img_fondo,
+            BackgroundRepeat.NO_REPEAT,
+            BackgroundRepeat.NO_REPEAT,
+            BackgroundPosition.DEFAULT,
+            new BackgroundSize(700, 700, true, true, true, true));
+    Background bGround = new Background(bImg);
+    vBox_Welcome.setBackground(bGround);
+
+
+    //--------------------------------------------------------------------------------------------------------------
+
+
+    //--------------------------------------------------------------------------------------------------------------
+
+    // se crea una label que indica la bienvenida al jugador
+    Label labelWelcome = new Label("Welcome");
+    labelWelcome.setStyle(
+            "-fx-text-fill: #70fd00;" + // Color del texto
+                    "-fx-font-family: 'Showcard Gothic';" + // Fuente
+                    "-fx-font-size: 100px;" + // Tamaño de fuente
+                    "-fx-effect: dropshadow(three-pass-box, #000, 10, 0, 0, 0);" // Efecto de sombra
+    );
+
+
+    //--------------------------------------------------------------------------------------------------------------
+
+    //--------------------------------------------------------------------------------------------------------------
+
+    // se crea una label para solicitar el nombre al usario
+    Label lb_nameInput = new Label("Insert your name");
+
+    lb_nameInput.setFont(new Font("Comic Sans MS",26));//Se le asigna la fuente al label
+    lb_nameInput.setStyle("-fx-border-width: 2;" + "-fx-text-fill: #FF310F;" +
+            "-fx-border-radius: 10;" + "-fx-background-radius: 10;"); // se le da un estilo al label
+    lb_nameInput.setMinSize(100,40); // tamaño del label
+
+
+
+
+    // se crea un Txt que obtendra el name del usuario
+    TextField Txt_Name = new TextField();
+    // Establece el tamaño y la fuente del TextField
+    Txt_Name.setFont(new Font("Comic Sans MS", 18));
+    Txt_Name.setMaxSize(400,100); // tamaño del Txt
+
+
+
+    // se crea un boton para que cuando el usuario ingrese su name, lo envie a los creditos y posteriormente al menu de inicio
+    Button btt_Start = new Button("Start");
+    btt_Start.setFont(new Font("Comic Sans MS",26));//Se le asigna la fuente al botton
+    btt_Start.setStyle("-fx-border-width: 2;" + "-fx-border-color: #000000;" + "-fx-text-fill: #FF310F;" +
+            "-fx-border-radius: 10;" + "-fx-background-radius: 10;");// se le da estilo
+    btt_Start.setMinSize(100, 40);// se le da tamaño
+
+
+
+    // Establece la alineación del VBox
+    vBox_Welcome.setAlignment(Pos.CENTER);
+
+    // se agrega cada objeto al Vbox
+    vBox_Welcome.getChildren().addAll(labelWelcome,lb_nameInput,Txt_Name,btt_Start);
+    stage.centerOnScreen();
+
+
+    //--------------------------------------------------------------------------------------------------------------
+
+    Scene scene = new Scene(vBox_Welcome, 500, 500);
+
+    return scene;
+}
 
 
     public Scene getSeceneMenu(){
@@ -130,7 +212,7 @@ Button btt_Menu_Instrucciones = new Button("Instructions");
 
         //--------------------------------------------------------------------------------------------------------------
 
-        vbx_pane.setAlignment(Pos.CENTER);//Centra todo en el menu
+        vbx_pane.setAlignment(Pos.CENTER);//Centratodoenelmenu
 
         vbx_pane.getChildren().addAll(lb_Menu_Titulo,btt_Menu_Jugar,btt_Menu_Instrucciones,btt_Menu_Cerrar);//Crea los hijos del vbx_pane
 
