@@ -427,7 +427,97 @@ public void ActualizarEcenario(Stage stage){
         stage.setScene(getSceneGame(stage));
 }
 
+    public Scene getSceneWin (){
 
+        // -------------------------------------------------------------------------------------------------------------
+        BorderPane b_Pane = new BorderPane(); // se instancia el contendor//----------------------------------------
+        //--------------------------------------------------------------------------------------------------------------
+        // se le coloca una imagen como fondo a la escena
+        Image img_fondo = new Image("Fondo.png");
+
+        BackgroundImage bImg = new BackgroundImage(img_fondo,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT,
+                new BackgroundSize(700, 700, true, true, true, true));
+        Background bGround = new Background(bImg);
+        b_Pane.setBackground(bGround);
+        //--------------------------------------------------------------------------------------------------------------
+
+
+        //--------------------------------------------------------------------------------------------------------------
+        // se crea una label que indica que el juego se ha ganado
+        Label labelWin = new Label("You win");
+        labelWin.setStyle(
+                "-fx-text-fill: #70fd00;" + // Color del texto
+                        "-fx-font-family: 'Showcard Gothic';" + // Fuente
+                        "-fx-font-size: 100px;" + // Tamaño de fuente
+                        "-fx-effect: dropshadow(three-pass-box, #000, 10, 0, 0, 0);" // Efecto de sombra
+        );
+        b_Pane.setCenter(labelWin);
+        //--------------------------------------------------------------------------------------------------------------
+
+        //--------------------------------------------------------------------------------------------------------------
+        // se crea un Vbox que contendra los botones
+        VBox vBox_Bottom = new VBox();
+        vBox_Bottom.setSpacing(10); // espacio entre los botones
+
+        // se crea un boton de volver a jugar
+        Button btt_playAgain = new Button("Play Again");
+
+        btt_playAgain.setFont(new Font("Comic Sans MS",26));//Se le asigna la fuente al botton
+
+        btt_playAgain.setStyle("-fx-border-width: 2;" + "-fx-border-color: #000000;" + "-fx-text-fill: #FF310F;" +
+                "-fx-border-radius: 10;" + "-fx-background-radius: 10;"); // se le da un estilo al boton
+
+
+
+        btt_playAgain.setMinSize(100,40); // tamaño del boton
+        vBox_Bottom.getChildren().add(btt_playAgain);// se agrega al Vbox
+        vBox_Bottom.setAlignment(Pos.TOP_CENTER);// se le asgina la posicion
+        b_Pane.setBottom(vBox_Bottom);// se establece el boton
+
+        BorderPane.setMargin(vBox_Bottom,new Insets(0,0,50,0));
+
+        //--------------------------------------------------------------------------------------------------------------
+
+
+        // se crea un boton de close
+        Button btt_close = new Button("Close");
+
+        btt_close.setFont(new Font("Comic Sans MS",26));//Se le asigna la fuente al botton
+
+        btt_close.setStyle("-fx-border-width: 2;" + "-fx-border-color: #000000;" + "-fx-text-fill: #FF310F;" +
+                "-fx-border-radius: 10;" + "-fx-background-radius: 10;");// se le da estilo
+
+
+
+        btt_close.setMinSize(100,40);//tamaño
+        vBox_Bottom.getChildren().add(btt_close);// se agrega al Vbox
+        vBox_Bottom.setAlignment(Pos.TOP_CENTER);// se le asigna la posicion
+        b_Pane.setBottom(vBox_Bottom); // se establece el boton
+
+        BorderPane.setMargin(vBox_Bottom,new Insets(0,0,50,0));
+
+        btt_close.setOnAction(new EventHandler<ActionEvent>() {  // se le asigna la funcion al boton
+            @Override
+            public void handle(ActionEvent actionEvent) {
+
+                Platform.exit(); // cerrar la app
+
+            }
+        });
+
+        //--------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+        Scene scene = new Scene(b_Pane, 500, 500);
+
+        return scene;
+    }
 
 
 }
