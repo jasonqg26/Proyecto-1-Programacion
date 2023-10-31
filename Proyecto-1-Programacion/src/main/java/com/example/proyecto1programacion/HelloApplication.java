@@ -20,9 +20,10 @@ public class HelloApplication extends Application {
     //Se intancia la clase interface
     @Override
     public void start(Stage stage) throws IOException {
+        this.stage = stage; // Asigna el objeto 'stage' actual al miembro 'this.stage' de la clase.
 
-
-
+        // Establece el objeto 'stage' como el Stage principal de la instancia de InterFACE.
+        interFace.setMainStage(stage);
 
         stage.getIcons().add(new Image("Logo.png"));
 
@@ -36,7 +37,7 @@ public class HelloApplication extends Application {
             stage.centerOnScreen();
 
 
-
+        // Configura un manejador de eventos para el botón "Play" del menú
             interFace.btt_Menu_Jugar.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent actionEvent) { //Evento del botton play del menu
@@ -47,7 +48,13 @@ public class HelloApplication extends Application {
                 }
             });
 
-
+        // Configura un manejador de eventos para el botón "Instructions" del menú
+        interFace.btt_Menu_Instrucciones.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) { //Evento del botton instructions del menu
+                interFace.mostrarInstrucciones();
+            }
+        });
 
     }
 

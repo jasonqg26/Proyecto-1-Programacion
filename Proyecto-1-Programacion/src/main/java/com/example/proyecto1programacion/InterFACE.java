@@ -14,14 +14,24 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 import java.util.Objects;
 
 
 public class InterFACE {
+
+    private Stage stage;
+    // Resto de tus atributos y métodos
+
+    public void setMainStage(Stage stage) {
+        this.stage = stage;
+    }
 
 Logic logic = new Logic();
 GeneradorDeMatriz generador = new GeneradorDeMatriz();//Se inistancia la clase de generacion de matriz
@@ -33,16 +43,10 @@ int MatrixGame [][] = generador.Board;//Se guarda la matris generada en una matr
 
 //Los botones se intancia globalmente para poder usar su evento en el main
 Button btt_Menu_Jugar = new Button("Play");
-
-
+Button btt_Menu_Instrucciones = new Button("Instructions");
 
 
 //-------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
 
 
     public Scene getSeceneMenu(){
@@ -63,6 +67,8 @@ Button btt_Menu_Jugar = new Button("Play");
                 new BackgroundSize(700, 700, true, true, true, true));
         Background bGround = new Background(bImg);
         vbx_pane.setBackground(bGround);
+
+
         //-------------------------------------------------------------------------------------------------------------
 
         //                                          Titulo del videoJuego
@@ -79,6 +85,27 @@ Button btt_Menu_Jugar = new Button("Play");
                                 "-fx-border-radius: 10;" + "-fx-background-radius: 10;"); //Se le aplica color ;0
 
         btt_Menu_Jugar.setFont(new Font("Comic Sans MS",36));//Se le asigna la fuente al boton
+
+
+
+        //--------------------------------------------------------------------------------------------------------------
+
+        //                                      Boton de Instrucciones
+
+
+        // Establece el estilo del botón de menú "Instrucciones"
+        btt_Menu_Instrucciones.setStyle("-fx-border-width: 2;" + "-fx-border-color: #000000;" +
+                "-fx-text-fill: #1D5DEC;" + "-fx-border-radius: 10;" + "-fx-background-radius: 10;"
+        );
+
+        //fuente personalizada al botón
+        btt_Menu_Instrucciones.setFont(new Font("Comic Sans MS", 26));
+
+        // evento del botón para mostrar las instrucciones al hacer clic
+        btt_Menu_Instrucciones.setOnAction(event -> mostrarInstrucciones());
+
+
+
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -105,12 +132,80 @@ Button btt_Menu_Jugar = new Button("Play");
 
         vbx_pane.setAlignment(Pos.CENTER);//Centra todo en el menu
 
-        vbx_pane.getChildren().addAll(lb_Menu_Titulo,btt_Menu_Jugar,btt_Menu_Cerrar);//Crea los hijos del vbx_pane
+        vbx_pane.getChildren().addAll(lb_Menu_Titulo,btt_Menu_Jugar,btt_Menu_Instrucciones,btt_Menu_Cerrar);//Crea los hijos del vbx_pane
 
         return new Scene(vbx_pane,500,500);
         }
 
 //----------------------------------------------------------------------------------------------------------------------
+
+    //                                      Escena de instrucciones
+    public void mostrarInstrucciones() {
+    // nuevo escenario para mostrar las instrucciones
+    Stage instructionsStage = new Stage();
+    instructionsStage.setTitle("Instrucciones");
+    instructionsStage.initStyle(StageStyle.UNDECORATED);
+
+    // etiquetas de instrucciones
+    Label[] instructionLabels = {
+            createInstructionLabel("1.The game consists of a 4X4 board, containing \n16 numbers (0-15), with" +
+                    " the objective of \narranging the numbers in order, starting at 1 \nand ending at 15" +
+                    " (empty space at the end)"),
+            createInstructionLabel("2.Only the empty square is allowed to be moved, \n exchanging numbers " +
+                    "with that square until all\n of them are accommodated."),
+            createInstructionLabel("3.It is only allowed to move the number that is \nvertically and" +
+                    " horizontally to the empty square\n, any other movement is invalid."),
+            createInstructionLabel("4.There is no time or move limit, so have fun with\n the game.")
+    };
+
+    //contenedor vertical para las etiquetas de instrucciones
+    VBox instructionsPane = new VBox(20, instructionLabels);
+    instructionsPane.setAlignment(Pos.CENTER);
+
+    // Configura el fondo de la escena con una imagen
+    Image backgroundImage = new Image("Fondo2.png");
+    BackgroundImage backgroundImg = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT,
+            BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+            new BackgroundSize(700, 700, true, true, true, true));
+    Background background = new Background(backgroundImg);
+    instructionsPane.setBackground(background);
+
+    // nueva escena con el contenedor de instrucciones
+    Scene instructionsScene = new Scene(instructionsPane, 500, 500);
+
+    // botón de "Return" para volver al menú
+    Button returnButton = new Button("Return");
+    returnButton.setStyle("-fx-border-width: 2; -fx-border-color: #000000; -fx-text-fill: #0000FF; -fx-border-radius: 10; -fx-background-radius: 10;");
+    returnButton.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 26));
+
+    // Asigna un evento al botón para volver al menú principal y cerrar las instrucciones
+    returnButton.setOnAction(event -> {
+        stage.setScene(getSeceneMenu());
+        instructionsStage.close();
+    });
+
+    // Agrega el botón al contenedor de instrucciones
+    instructionsPane.getChildren().add(returnButton);
+
+    // Configura la escena y muestra el escenario de instrucciones
+    instructionsStage.setScene(instructionsScene);
+    instructionsStage.show();
+}
+
+//----------------------------------------------------------------------------------------------------------------------
+
+    //                                    Personalizador de etiquetas
+    //crea etiquetas de instrucción personalizadas
+    private Label createInstructionLabel(String text) {
+        Label label = new Label(text);
+        label.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 20));
+        label.setStyle("-fx-text-fill: #000000");
+        label.setAlignment(Pos.CENTER);
+        return label;
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+
     public Scene getSceneGame(Stage stage){
 
         //Scene del juego
