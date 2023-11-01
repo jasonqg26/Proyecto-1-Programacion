@@ -67,7 +67,7 @@ public Scene getSceneWelcome (){
     labelWelcome.setStyle(
                     "-fx-text-fill: #5790B9;" + // Color del texto
                     "-fx-font-family: 'Kristen ITC';" + // Fuente
-                    "-fx-font-size: 70px;"  // Tamaño de fuente
+                    "-fx-font-size: 100px;"  // Tamaño de fuente
     );
 
 
@@ -99,7 +99,7 @@ public Scene getSceneWelcome (){
     btt_Start.setFont(new Font("Comic Sans MS",26));//Se le asigna la fuente al botton
     btt_Start.setStyle("-fx-border-width: 2;" + "-fx-border-color: #000000;" + "-fx-text-fill: #000000;" +
             "-fx-border-radius: 10;" + "-fx-background-radius: 10;" + "-fx-background-color: #FFFF");// se le da estilo
-    btt_Start.setMinSize(100, 40);// se le da tamaño
+    btt_Start.setMinSize(150, 60);// se le da tamaño
 
 
 
@@ -164,12 +164,26 @@ public Scene getSceneCredits() {
     vBoxCredits.setSpacing(20);
 
     // etiquetas de créditos
-    Label labelWelcome = creditsLabels("¡Bienvenido " + nameUser + "!", 30);
-    Label labelCredits = creditsLabels("Créditos", 30);
+    Label labelWelcome = creditsLabels("¡Bienvenido " + nameUser + "!", 45);
+    Label labelCredits = creditsLabels("Créditos", 45);
     Label labelCredit1 = creditsLabels("Desarrollado por:\nAlexander Fallas Sanabria C32838\n" +
-            "Jason Quesada Gómez C36213\nFabian Quesada Cordero C36202", 20);
-    Label labelCredit2 = creditsLabels("Proyecto del curso IF2000", 20);
-    Label labelCredit3 = creditsLabels("Año: 2023", 20);
+            "Jason Quesada Gómez C36213\nFabian Quesada Cordero C36202", 30);
+    Label labelCredit2 = creditsLabels("Proyecto del curso IF2000", 30);
+    Label labelCredit3 = creditsLabels("Año: 2023", 30);
+
+    Image backgroundImage = new Image("Fondo3.png.jpg");
+
+    BackgroundImage backgroundImg = new BackgroundImage(
+            backgroundImage,
+            BackgroundRepeat.NO_REPEAT,
+            BackgroundRepeat.NO_REPEAT,
+            BackgroundPosition.DEFAULT,
+            new BackgroundSize(700, 700, true, true, true, true));
+
+    Background background = new Background(backgroundImg);
+
+    vBoxCredits.setBackground(background);
+
 
     // Agrega las etiquetas al contenedor VBox
     vBoxCredits.getChildren().addAll(labelWelcome, labelCredits, labelCredit1, labelCredit2, labelCredit3);
@@ -220,7 +234,7 @@ public Scene getSceneCredits() {
 
         Label lb_Menu_Titulo = new Label("TAKEN GAME");//Se crea la etiqueta
         lb_Menu_Titulo.setStyle("-fx-text-fill: #5790B9;");//Se le da un estilo
-        lb_Menu_Titulo.setFont(new Font("Kristen ITC",45));//Se le asigna la fuente al titulo
+        lb_Menu_Titulo.setFont(new Font("Kristen ITC",65));//Se le asigna la fuente al titulo
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -326,7 +340,7 @@ public Scene getSceneCredits() {
             "\n4.There is no time or move limit, so have fun " +
             "\nwith the game.");
 
-        instructionLabels.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 20));
+        instructionLabels.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 25));
         instructionLabels.setStyle("-fx-text-fill: #000000");
         instructionLabels.setAlignment(Pos.CENTER);
 
