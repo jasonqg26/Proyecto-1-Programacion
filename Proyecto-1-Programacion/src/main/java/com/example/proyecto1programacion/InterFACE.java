@@ -30,7 +30,6 @@ import java.util.Objects;
 public class InterFACE {
 
     private Stage stage;
-    // Resto de tus atributos y métodos
 
     public void setMainStage(Stage stage) {
         this.stage = stage;
