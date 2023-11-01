@@ -500,7 +500,7 @@ public Scene getSceneCredits() {
       });
         //-----------------------------------------------------------------------------------------------------------------
         //                                       Botton de Volver al Menu
-        Button btt_volverAlMenu = new Button("Volver al Menu");
+        Button btt_volverAlMenu = new Button("Back to menu");
 
         btt_volverAlMenu.setFont(new Font("Comic Sans MS",26));//Se le asigna la fuente al botton
 
