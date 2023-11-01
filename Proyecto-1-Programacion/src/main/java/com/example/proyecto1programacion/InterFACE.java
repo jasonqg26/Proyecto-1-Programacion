@@ -150,7 +150,7 @@ public Scene getSceneWelcome (){
     vBox_Welcome.getChildren().addAll(labelWelcome,lb_nameInput,Txt_Name,btt_Start);
     stage.centerOnScreen();
 
-    Scene scene = new Scene(vBox_Welcome, 500, 500);
+    Scene scene = new Scene(vBox_Welcome, 700, 700);
 
     return scene;
 }
@@ -175,7 +175,7 @@ public Scene getSceneCredits() {
     vBoxCredits.getChildren().addAll(labelWelcome, labelCredits, labelCredit1, labelCredit2, labelCredit3);
 
     // Crea la escena de créditos
-    Scene creditsScene = new Scene(vBoxCredits, 500, 500);
+    Scene creditsScene = new Scene(vBoxCredits, 700, 700);
     return creditsScene;
 }
     //--------------------------------------------------------------------------------------------------------------
@@ -297,7 +297,7 @@ public Scene getSceneCredits() {
         vbx_pane.getChildren().addAll(lb_Menu_Titulo,btt_Menu_Jugar,btt_Menu_Instrucciones,btt_Menu_Cerrar);
 
 
-        return new Scene(vbx_pane,500,500);
+        return new Scene(vbx_pane,700,700);
         }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -374,7 +374,7 @@ public Scene getSceneCredits() {
     // Agrega el botón al contenedor de instrucciones
 
     // Configura la escena y muestra el escenario de instrucciones
-        Scene instructionsScene = new Scene(instructionsPane, 500, 500);
+        Scene instructionsScene = new Scene(instructionsPane, 700, 700);
         return instructionsScene;
     }
 
@@ -717,7 +717,7 @@ public Scene getSceneCredits() {
 
 
 
-        Scene scene = new Scene(vBox_Bottom, 500, 500);
+        Scene scene = new Scene(vBox_Bottom, 700, 700);
 
         return scene;
     }

@@ -87,11 +87,7 @@ public class GeneradorDeMatriz {
 
 
         //Verifica que el movimineto no sea diagonal
-        if(movimiento_valido_colum == true && movimiento_valido_row == true)
-            return false;
-        else if (movimiento_valido_row == false && movimiento_valido_colum == false) {
-            return false;
-        } else return true;
+        return true;
     }
 
     public void haceJugada(int i, int j){
