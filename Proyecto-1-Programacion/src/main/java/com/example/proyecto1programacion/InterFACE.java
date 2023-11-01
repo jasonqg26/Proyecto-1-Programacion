@@ -38,12 +38,6 @@ Logic logic = new Logic();
 GeneradorDeMatriz generador = new GeneradorDeMatriz();//Se inistancia la clase de generacion de matriz
 int MatrixGame [][] = generador.Board;//Se guarda la matris generada en una matrix para usarse con mayor facilidad
 
-
-
-//--------------------------------------------------------------------------------------------------------------------
-
-//Los botones se intancia globalmente para poder usar su evento en el main
-Button btt_Menu_Jugar = new Button("Play");
 Button btt_Menu_Instrucciones = new Button("Instructions");
 
 
@@ -52,7 +46,7 @@ public Scene getSceneWelcome (){
                                          //Escena de Bienvenida
     // -------------------------------------------------------------------------------------------------------------
     VBox vBox_Welcome = new VBox(); // se instancia el contendor//
-    vBox_Welcome.setSpacing(10); // espacio entre los objetos
+    vBox_Welcome.setSpacing(20); // espacio entre los objetos
     //--------------------------------------------------------------------------------------------------------------
 
 
@@ -76,10 +70,9 @@ public Scene getSceneWelcome (){
     // se crea una label que indica la bienvenida al jugador
     Label labelWelcome = new Label("Welcome");
     labelWelcome.setStyle(
-            "-fx-text-fill: #26c9e5;" + // Color del texto
+                    "-fx-text-fill: #5790B9;" + // Color del texto
                     "-fx-font-family: 'Kristen ITC';" + // Fuente
-                    "-fx-font-size: 100px;" + // Tamaño de fuente
-                    "-fx-effect: dropshadow(three-pass-box, #000, 10, 0, 0, 0);" // Efecto de sombra
+                    "-fx-font-size: 70px;"  // Tamaño de fuente
     );
 
 
@@ -91,9 +84,9 @@ public Scene getSceneWelcome (){
     Label lb_nameInput = new Label("Insert your name");
 
     lb_nameInput.setFont(new Font("Comic Sans MS",26));//Se le asigna la fuente al label
-    lb_nameInput.setStyle("-fx-border-width: 2;" + "-fx-text-fill: #FF310F;" +
+    lb_nameInput.setStyle("-fx-border-width: 2;" + "-fx-text-fill: #000000;" +
             "-fx-border-radius: 10;" + "-fx-background-radius: 10;"); // se le da un estilo al label
-    lb_nameInput.setMinSize(100,40); // tamaño del label
+
 
 
 
@@ -101,8 +94,8 @@ public Scene getSceneWelcome (){
     // se crea un Txt que obtendra el name del usuario
     TextField Txt_Name = new TextField();
     // Establece el tamaño y la fuente del TextField
-    Txt_Name.setFont(new Font("Kristen ITC", 18));
-    Txt_Name.setMaxSize(400,100); // tamaño del Txt
+    Txt_Name.setFont(new Font("Comic Sans MS", 18));
+    Txt_Name.setMaxSize(250,100); // tamaño del Txt
 
 
 
@@ -112,6 +105,14 @@ public Scene getSceneWelcome (){
     btt_Start.setStyle("-fx-border-width: 2;" + "-fx-border-color: #000000;" + "-fx-text-fill: #FF310F;" +
             "-fx-border-radius: 10;" + "-fx-background-radius: 10;");// se le da estilo
     btt_Start.setMinSize(100, 40);// se le da tamaño
+
+    btt_Start.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent actionEvent) {
+
+            stage.setScene(getSeceneMenu());
+        }
+    });
 
 
 
@@ -134,7 +135,7 @@ public Scene getSceneWelcome (){
     public Scene getSeceneMenu(){
 
         VBox vbx_pane = new VBox();//Se crea el contenedor
-        vbx_pane.setSpacing(50);
+        vbx_pane.setSpacing(25);
 
         //------------------------------------------------------------------------------------------------------------
 
@@ -157,17 +158,27 @@ public Scene getSceneWelcome (){
 
         Label lb_Menu_Titulo = new Label("TAKEN GAME");//Se crea la etiqueta
         lb_Menu_Titulo.setStyle("-fx-text-fill: #5790B9;");//Se le da un estilo
-        lb_Menu_Titulo.setFont(new Font("Kristen ITC",50));//Se le asigna la fuente al titulo
+        lb_Menu_Titulo.setFont(new Font("Kristen ITC",45));//Se le asigna la fuente al titulo
 
         //--------------------------------------------------------------------------------------------------------------
 
        //                                      Boton de Jugar
 
-        btt_Menu_Jugar.setStyle("-fx-border-width: 2;" + "-fx-border-color: #000000;" + "-fx-text-fill: #00DC3C ;" +
-                                "-fx-border-radius: 10;" + "-fx-background-radius: 10;"); //Se le aplica color ;0
+        //Se crea el botton del jugar
+        Button btt_Menu_Jugar = new Button("Play");
+        btt_Menu_Jugar.setFont(new Font("Comic Sans MS",27));
 
-        btt_Menu_Jugar.setFont(new Font("Comic Sans MS",36));//Se le asigna la fuente al boton
+        btt_Menu_Jugar.setStyle("-fx-border-width: 2;" + "-fx-border-color: #000000;"+ "-fx-text-fill: #000000;" +
+                                "-fx-border-radius: 10;" + "-fx-background-radius: 10;" + "-fx-background-color: #FFFFFF;"); //Se le aplica color ;0
 
+        btt_Menu_Jugar.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                stage.setTitle("Taken Game");
+                stage.setScene(getSceneGame());
+                stage.centerOnScreen();
+            }
+        });
 
 
         //--------------------------------------------------------------------------------------------------------------
@@ -177,7 +188,8 @@ public Scene getSceneWelcome (){
 
         // Establece el estilo del botón de menú "Instrucciones"
         btt_Menu_Instrucciones.setStyle("-fx-border-width: 2;" + "-fx-border-color: #000000;" +
-                "-fx-text-fill: #1D5DEC;" + "-fx-border-radius: 10;" + "-fx-background-radius: 10;"
+                "-fx-text-fill: #000000;" + "-fx-border-radius: 10;" + "-fx-background-radius: 10;"
+                + "-fx-background-color: #FFFFFF;"
         );
 
         //fuente personalizada al botón
@@ -194,12 +206,10 @@ public Scene getSceneWelcome (){
         //                                      Boton de Cerrar
 
         Button btt_Menu_Cerrar = new Button("Close");//Se crea el botton cerrar
-
-
         //Se le da estilo al boton cerrar
-        btt_Menu_Cerrar.setStyle("-fx-border-width: 2;" + "-fx-border-color: #000000;" + "-fx-text-fill: #FF310F;" +
-                                 "-fx-border-radius: 10;" + "-fx-background-radius: 10;");
-
+        btt_Menu_Cerrar.setStyle("-fx-border-width: 2;" + "-fx-border-color: #000000;" + "-fx-text-fill: #000000;" +
+                                 "-fx-border-radius: 10;" + "-fx-background-radius: 10;" +
+                                 "-fx-background-color: #FFFFFF;");
 
         btt_Menu_Cerrar.setFont(new Font("Comic Sans MS",26));//Se le asigna la fuente al botton
         btt_Menu_Cerrar.setOnAction(new EventHandler<ActionEvent>() { //Evento de close con el botton close
@@ -211,10 +221,12 @@ public Scene getSceneWelcome (){
 
 
         //--------------------------------------------------------------------------------------------------------------
+        //Centra_todo en el menu
+        vbx_pane.setAlignment(Pos.CENTER);
 
-        vbx_pane.setAlignment(Pos.CENTER);//Centratodoenelmenu
+        //Crea los hijos del vbx_pane
+        vbx_pane.getChildren().addAll(lb_Menu_Titulo,btt_Menu_Jugar,btt_Menu_Instrucciones,btt_Menu_Cerrar);
 
-        vbx_pane.getChildren().addAll(lb_Menu_Titulo,btt_Menu_Jugar,btt_Menu_Instrucciones,btt_Menu_Cerrar);//Crea los hijos del vbx_pane
 
         return new Scene(vbx_pane,500,500);
         }
@@ -291,7 +303,7 @@ public Scene getSceneWelcome (){
 
     //-----------------------------------------------------------------------------------------------------------------
 
-    public Scene getSceneGame(Stage stage){
+    public Scene getSceneGame(){
 
         //Scene del juego
 
@@ -348,7 +360,7 @@ public Scene getSceneWelcome (){
                        //Realiza el movimiento
                        generador.haceJugada(fila,columna);
                        //Actualiza el stage
-                        ActualizarEcenario(stage);
+                        stage.setScene(getSceneGame());
                    }else {
                     // Cambiar el estilo del botón cuando el movimiento no es válido
                        if (finalI != 0){
@@ -442,7 +454,7 @@ public Scene getSceneWelcome (){
               generador.Board = temp;
               generador.StartBoard();
               MatrixGame = generador.Board;
-              ActualizarEcenario(stage);
+              stage.setScene(getSceneGame());
 
 
 
@@ -483,9 +495,7 @@ public Scene getSceneWelcome (){
                 generador.Board = temp;
                 generador.StartBoard();
                 MatrixGame = generador.Board;
-
-
-                ActualizarEcenario(stage);
+                stage.setScene(getSceneGame());
 
             }
         });
@@ -510,9 +520,7 @@ public Scene getSceneWelcome (){
 
     }
 
-public void ActualizarEcenario(Stage stage){
-        stage.setScene(getSceneGame(stage));
-}
+
     public Scene getSceneWin (){
 
         // -------------------------------------------------------------------------------------------------------------
@@ -568,7 +576,7 @@ public void ActualizarEcenario(Stage stage){
             @Override
             public void handle(ActionEvent actionEvent) {
 
-                stage.setScene(getSceneGame(stage));
+                stage.setScene(getSceneGame());
                 stage.centerOnScreen();
 
             }
