@@ -1,6 +1,8 @@
 package com.example.proyecto1programacion;
 
+import javafx.animation.KeyFrame;
 import javafx.animation.PauseTransition;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -115,6 +117,36 @@ public Scene getSceneWelcome (){
 
 
 
+    btt_Start.setOnAction(new EventHandler<ActionEvent>() {
+        @Override
+        public void handle(ActionEvent event) {
+            // Oculta la escena de bienvenida
+            stage.hide();
+
+            // Muestra la escena de créditos
+            Stage creditsStage = new Stage();
+            creditsStage.initStyle(StageStyle.UNDECORATED);
+            Scene creditsScene = getSceneCredits();
+            creditsStage.setScene(creditsScene);
+            creditsStage.show();
+
+            // manejador de eventos para controlar el cierre de la escena de créditos después de X segundos
+            EventHandler<ActionEvent> timelineHandler = new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    creditsStage.close();
+                    stage.setScene(getSeceneMenu());// Vuelve a la escena principal
+                    stage.show(); // Muestra nuevamente la escena principal
+                }
+            };
+            // línea de tiempo para cerrar la escena de créditos
+            Timeline durationSceneCredits = new Timeline(new KeyFrame(Duration.seconds(8), timelineHandler));
+            durationSceneCredits.play();
+        }
+    });
+
+
+
     // Establece la alineación del VBox
     vBox_Welcome.setAlignment(Pos.CENTER);
 
@@ -122,15 +154,50 @@ public Scene getSceneWelcome (){
     vBox_Welcome.getChildren().addAll(labelWelcome,lb_nameInput,Txt_Name,btt_Start);
     stage.centerOnScreen();
 
-
-    //--------------------------------------------------------------------------------------------------------------
-
     Scene scene = new Scene(vBox_Welcome, 500, 500);
 
     return scene;
 }
+//--------------------------------------------------------------------------------------------------------------
+    //                                      Creditos
+// Función para obtener la escena de créditos
+public Scene getSceneCredits() {
+    // escena de créditos
+    VBox vBoxCredits = new VBox();
+    vBoxCredits.setAlignment(Pos.CENTER);
+    vBoxCredits.setSpacing(20);
+
+    // etiquetas de créditos
+    Label labelWelcome = creditsLabels("¡Bienvenido!", 30);
+    Label labelCredits = creditsLabels("Créditos", 30);
+    Label labelCredit1 = creditsLabels("Desarrollado por:\nAlexander Fallas Sanabria C32838\n" +
+            "Jason Quesada Gómez C36213\nFabian Quesada Cordero C36202", 20);
+    Label labelCredit2 = creditsLabels("Proyecto del curso IF2000", 20);
+    Label labelCredit3 = creditsLabels("Año: 2023", 20);
+
+    // Agrega las etiquetas al contenedor VBox
+    vBoxCredits.getChildren().addAll(labelWelcome, labelCredits, labelCredit1, labelCredit2, labelCredit3);
+
+    // Crea la escena de créditos
+    Scene creditsScene = new Scene(vBoxCredits, 500, 500);
+    return creditsScene;
+}
+    //--------------------------------------------------------------------------------------------------------------
+
+   //                                          Perosonalizador de etiquetas
+
+    // Función para crear etiquetas con fuente y estilo personalizados
+    private Label creditsLabels(String text, int fontSize) {
+        Label label = new Label(text);
+        // Establece la fuente y el estilo de las etiquetas
+        label.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, fontSize));
+        label.setStyle("-fx-text-fill: #000000");
+        label.setAlignment(Pos.CENTER);
+        return label;
+    }
 
 
+    //--------------------------------------------------------------------------------------------------------------
     public Scene getSeceneMenu(){
 
         VBox vbx_pane = new VBox();//Se crea el contenedor
@@ -184,7 +251,12 @@ public Scene getSceneWelcome (){
         btt_Menu_Instrucciones.setFont(new Font("Comic Sans MS", 26));
 
         // evento del botón para mostrar las instrucciones al hacer clic
-        btt_Menu_Instrucciones.setOnAction(event -> mostrarInstrucciones());
+        btt_Menu_Instrucciones.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                mostrarInstrucciones();
+            }
+        });
 
 
 
@@ -245,7 +317,7 @@ public Scene getSceneWelcome (){
     instructionsPane.setAlignment(Pos.CENTER);
 
     // Configura el fondo de la escena con una imagen
-    Image backgroundImage = new Image("Fondo2.png");
+    Image backgroundImage = new Image("Fondo3.png.jpg");
     BackgroundImage backgroundImg = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT,
             BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
             new BackgroundSize(700, 700, true, true, true, true));
@@ -257,7 +329,8 @@ public Scene getSceneWelcome (){
 
     // botón de "Return" para volver al menú
     Button returnButton = new Button("Return");
-    returnButton.setStyle("-fx-border-width: 2; -fx-border-color: #000000; -fx-text-fill: #0000FF; -fx-border-radius: 10; -fx-background-radius: 10;");
+    returnButton.setStyle("-fx-border-width: 2; -fx-border-color: #000000; -fx-text-fill: #0000FF; " +
+            "-fx-border-radius: 10; -fx-background-radius: 10;");
     returnButton.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 26));
 
     // Asigna un evento al botón para volver al menú principal y cerrar las instrucciones
