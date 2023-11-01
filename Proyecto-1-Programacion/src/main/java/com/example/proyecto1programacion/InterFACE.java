@@ -168,12 +168,12 @@ public Scene getSceneCredits() {
     vBoxCredits.setSpacing(20);
 
     // etiquetas de créditos
-    Label labelWelcome = creditsLabels("¡Bienvenido!", 30);
-    Label labelCredits = creditsLabels("Créditos", 30);
-    Label labelCredit1 = creditsLabels("Desarrollado por:\nAlexander Fallas Sanabria C32838\n" +
-            "Jason Quesada Gómez C36213\nFabian Quesada Cordero C36202", 20);
-    Label labelCredit2 = creditsLabels("Proyecto del curso IF2000", 20);
-    Label labelCredit3 = creditsLabels("Año: 2023", 20);
+    Label labelWelcome = labelPersonalizacion("¡Bienvenido!");
+    Label labelCredits = labelPersonalizacion("Créditos");
+    Label labelCredit1 = labelPersonalizacion("Desarrollado por:\nAlexander Fallas Sanabria C32838\n" +
+            "Jason Quesada Gómez C36213\nFabian Quesada Cordero C36202");
+    Label labelCredit2 = labelPersonalizacion("Proyecto del curso IF2000");
+    Label labelCredit3 = labelPersonalizacion("Año: 2023");
 
     // Agrega las etiquetas al contenedor VBox
     vBoxCredits.getChildren().addAll(labelWelcome, labelCredits, labelCredit1, labelCredit2, labelCredit3);
@@ -183,19 +183,6 @@ public Scene getSceneCredits() {
     return creditsScene;
 }
     //--------------------------------------------------------------------------------------------------------------
-
-   //                                          Perosonalizador de etiquetas
-
-    // Función para crear etiquetas con fuente y estilo personalizados
-    private Label creditsLabels(String text, int fontSize) {
-        Label label = new Label(text);
-        // Establece la fuente y el estilo de las etiquetas
-        label.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, fontSize));
-        label.setStyle("-fx-text-fill: #000000");
-        label.setAlignment(Pos.CENTER);
-        return label;
-    }
-
 
     //--------------------------------------------------------------------------------------------------------------
     public Scene getSeceneMenu(){
@@ -313,14 +300,14 @@ public Scene getSceneCredits() {
 
     // etiquetas de instrucciones
     Label[] instructionLabels = {
-            createInstructionLabel("1.The game consists of a 4X4 board, containing \n16 numbers (0-15), with" +
+            labelPersonalizacion("1.The game consists of a 4X4 board, containing \n16 numbers (0-15), with" +
                     " the objective of \narranging the numbers in order, starting at 1 \nand ending at 15" +
                     " (empty space at the end)"),
-            createInstructionLabel("2.Only the empty square is allowed to be moved, \n exchanging numbers " +
+            labelPersonalizacion("2.Only the empty square is allowed to be moved, \n exchanging numbers " +
                     "with that square until all\n of them are accommodated."),
-            createInstructionLabel("3.It is only allowed to move the number that is \nvertically and" +
+            labelPersonalizacion("3.It is only allowed to move the number that is \nvertically and" +
                     " horizontally to the empty square\n, any other movement is invalid."),
-            createInstructionLabel("4.There is no time or move limit, so have fun with\n the game.")
+            labelPersonalizacion("4.There is no time or move limit, so have fun with\n the game.")
     };
 
     //contenedor vertical para las etiquetas de instrucciones
@@ -365,8 +352,9 @@ public Scene getSceneCredits() {
 
     //                                    Personalizador de etiquetas
     //crea etiquetas de instrucción personalizadas
-    private Label createInstructionLabel(String text) {
+    private Label labelPersonalizacion(String text) {
         Label label = new Label(text);
+        // caracteristicas de las label
         label.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 20));
         label.setStyle("-fx-text-fill: #000000");
         label.setAlignment(Pos.CENTER);
