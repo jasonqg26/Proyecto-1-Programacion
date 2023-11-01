@@ -1,10 +1,11 @@
 package com.example.proyecto1programacion;
 
+import javafx.animation.KeyFrame;
 import javafx.animation.PauseTransition;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -15,7 +16,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
@@ -28,18 +28,13 @@ import java.util.Objects;
 public class InterFACE {
 
     private Stage stage;
-    // Resto de tus atributos y métodos
-
     public void setMainStage(Stage stage) {
         this.stage = stage;
     }
-
 Logic logic = new Logic();
 GeneradorDeMatriz generador = new GeneradorDeMatriz();//Se inistancia la clase de generacion de matriz
 int MatrixGame [][] = generador.Board;//Se guarda la matris generada en una matrix para usarse con mayor facilidad
-
-Button btt_Menu_Instrucciones = new Button("Instructions");
-
+String nameUser = "";
 
 //-------------------------------------------------------------------------------------------------------------------
 public Scene getSceneWelcome (){
@@ -94,44 +89,111 @@ public Scene getSceneWelcome (){
     // se crea un Txt que obtendra el name del usuario
     TextField Txt_Name = new TextField();
     // Establece el tamaño y la fuente del TextField
-    Txt_Name.setFont(new Font("Comic Sans MS", 18));
-    Txt_Name.setMaxSize(250,100); // tamaño del Txt
+    Txt_Name.setFont(new Font("Comic Sans MS", 15));
+    Txt_Name.setMaxSize(265,100); // tamaño del Txt
 
 
 
     // se crea un boton para que cuando el usuario ingrese su name, lo envie a los creditos y posteriormente al menu de inicio
     Button btt_Start = new Button("Start");
     btt_Start.setFont(new Font("Comic Sans MS",26));//Se le asigna la fuente al botton
-    btt_Start.setStyle("-fx-border-width: 2;" + "-fx-border-color: #000000;" + "-fx-text-fill: #FF310F;" +
-            "-fx-border-radius: 10;" + "-fx-background-radius: 10;");// se le da estilo
+    btt_Start.setStyle("-fx-border-width: 2;" + "-fx-border-color: #000000;" + "-fx-text-fill: #000000;" +
+            "-fx-border-radius: 10;" + "-fx-background-radius: 10;" + "-fx-background-color: #FFFF");// se le da estilo
     btt_Start.setMinSize(100, 40);// se le da tamaño
+
+
+
+
 
     btt_Start.setOnAction(new EventHandler<ActionEvent>() {
         @Override
-        public void handle(ActionEvent actionEvent) {
+        public void handle(ActionEvent event) {
+            //Se le asigna lo que haya en el txt a la variable nameUser
+            nameUser = Txt_Name.getText();
+            //Se revisa que haya algo escrito en el txt osea un nameUser valido
+            if(nameUser.equals("")) {
+                //Si no es valido se solicita uno valido
+                Txt_Name.setText("Please enter a valid username");
+                EventHandler<ActionEvent> timelineHandler = new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        //Con temporisador se vuelve a poner vacio el txt
+                        Txt_Name.setText("");
+                    }
+                };
+                // línea de tiempo para cerrar la escena de créditos
+                Timeline durationSceneCredits = new Timeline(new KeyFrame(Duration.seconds(0.25), timelineHandler));
+                durationSceneCredits.play();
 
-            stage.setScene(getSeceneMenu());
+            }else {
+                //Si no erra igual a vacio se pasa a la scena de creditos
+                stage.setScene(getSceneCredits());
+                EventHandler<ActionEvent> timelineHandler = new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        //Cuando termina el temposidaror se pasa a la scena del menu
+                        stage.setScene(getSeceneMenu());
+                    }
+                };
+                // línea de tiempo para cerrar la escena de créditos
+                Timeline durationSceneCredits = new Timeline(new KeyFrame(Duration.seconds(8), timelineHandler));
+                durationSceneCredits.play();
+            }
+
+
         }
     });
-
-
-
-    // Establece la alineación del VBox
+// Establece la alineación del VBox
     vBox_Welcome.setAlignment(Pos.CENTER);
 
     // se agrega cada objeto al Vbox
     vBox_Welcome.getChildren().addAll(labelWelcome,lb_nameInput,Txt_Name,btt_Start);
     stage.centerOnScreen();
 
-
-    //--------------------------------------------------------------------------------------------------------------
-
     Scene scene = new Scene(vBox_Welcome, 500, 500);
 
     return scene;
 }
+//--------------------------------------------------------------------------------------------------------------
+    //                                      Creditos
+// Función para obtener la escena de créditos
+public Scene getSceneCredits() {
+    // escena de créditos
+    VBox vBoxCredits = new VBox();
+    vBoxCredits.setAlignment(Pos.CENTER);
+    vBoxCredits.setSpacing(20);
+
+    // etiquetas de créditos
+    Label labelWelcome = creditsLabels("¡Bienvenido " + nameUser + "!", 30);
+    Label labelCredits = creditsLabels("Créditos", 30);
+    Label labelCredit1 = creditsLabels("Desarrollado por:\nAlexander Fallas Sanabria C32838\n" +
+            "Jason Quesada Gómez C36213\nFabian Quesada Cordero C36202", 20);
+    Label labelCredit2 = creditsLabels("Proyecto del curso IF2000", 20);
+    Label labelCredit3 = creditsLabels("Año: 2023", 20);
+
+    // Agrega las etiquetas al contenedor VBox
+    vBoxCredits.getChildren().addAll(labelWelcome, labelCredits, labelCredit1, labelCredit2, labelCredit3);
+
+    // Crea la escena de créditos
+    Scene creditsScene = new Scene(vBoxCredits, 500, 500);
+    return creditsScene;
+}
+    //--------------------------------------------------------------------------------------------------------------
+
+   //                                          Perosonalizador de etiquetas
+
+    // Función para crear etiquetas con fuente y estilo personalizados
+    public Label creditsLabels(String text, int fontSize) {
+        Label label = new Label(text);
+        // Establece la fuente y el estilo de las etiquetas
+        label.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, fontSize));
+        label.setStyle("-fx-text-fill: #000000");
+        label.setAlignment(Pos.CENTER);
+        return label;
+    }
 
 
+    //--------------------------------------------------------------------------------------------------------------
     public Scene getSeceneMenu(){
 
         VBox vbx_pane = new VBox();//Se crea el contenedor
@@ -185,7 +247,7 @@ public Scene getSceneWelcome (){
 
         //                                      Boton de Instrucciones
 
-
+        Button btt_Menu_Instrucciones = new Button("Instructions");
         // Establece el estilo del botón de menú "Instrucciones"
         btt_Menu_Instrucciones.setStyle("-fx-border-width: 2;" + "-fx-border-color: #000000;" +
                 "-fx-text-fill: #000000;" + "-fx-border-radius: 10;" + "-fx-background-radius: 10;"
@@ -196,7 +258,14 @@ public Scene getSceneWelcome (){
         btt_Menu_Instrucciones.setFont(new Font("Comic Sans MS", 26));
 
         // evento del botón para mostrar las instrucciones al hacer clic
-        btt_Menu_Instrucciones.setOnAction(event -> mostrarInstrucciones());
+        btt_Menu_Instrucciones.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                stage.setScene(mostrarInstrucciones());
+                stage.setTitle("Instrucciones");
+                stage.centerOnScreen();
+            }
+        });
 
 
 
@@ -234,72 +303,82 @@ public Scene getSceneWelcome (){
 //----------------------------------------------------------------------------------------------------------------------
 
     //                                      Escena de instrucciones
-    public void mostrarInstrucciones() {
-    // nuevo escenario para mostrar las instrucciones
-    Stage instructionsStage = new Stage();
-    instructionsStage.setTitle("Instrucciones");
-    instructionsStage.initStyle(StageStyle.UNDECORATED);
+    public Scene mostrarInstrucciones() {
 
-    // etiquetas de instrucciones
-    Label[] instructionLabels = {
-            createInstructionLabel("1.The game consists of a 4X4 board, containing \n16 numbers (0-15), with" +
-                    " the objective of \narranging the numbers in order, starting at 1 \nand ending at 15" +
-                    " (empty space at the end)"),
-            createInstructionLabel("2.Only the empty square is allowed to be moved, \n exchanging numbers " +
-                    "with that square until all\n of them are accommodated."),
-            createInstructionLabel("3.It is only allowed to move the number that is \nvertically and" +
-                    " horizontally to the empty square\n, any other movement is invalid."),
-            createInstructionLabel("4.There is no time or move limit, so have fun with\n the game.")
-    };
+    VBox instructionsPane = new VBox();
+    instructionsPane.setAlignment(Pos.CENTER);
+    instructionsPane.setSpacing(10);
+
+    Label instructionLabels = new Label(
+            "1.The game consists of a 4X4 board, containing " +
+            "\n16 numbers (0-15), with the objective of " +
+            "\narranging the numbers in order,starting at 1 " +
+            "\nand ending at 15 (empty space at the end)." +
+            "\n"+
+            "\n2.Only the empty square is allowed to be moved" +
+            "\nexchanging numbers with that" +
+            "\nsquare until all of them are accommodated." +
+            "\n"+
+            "\n3.It is only allowed to move the number that is" +
+            "\nvertically and horizontally to the empty" +
+            "\nsquare any other movement, is invalid."+
+            "\n"+
+            "\n4.There is no time or move limit, so have fun " +
+            "\nwith the game.");
+
+        instructionLabels.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 20));
+        instructionLabels.setStyle("-fx-text-fill: #000000");
+        instructionLabels.setAlignment(Pos.CENTER);
 
     //contenedor vertical para las etiquetas de instrucciones
-    VBox instructionsPane = new VBox(20, instructionLabels);
-    instructionsPane.setAlignment(Pos.CENTER);
+
+
 
     // Configura el fondo de la escena con una imagen
-    Image backgroundImage = new Image("Fondo2.png");
-    BackgroundImage backgroundImg = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT,
-            BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+    Image backgroundImage = new Image("Fondo3.png.jpg");
+
+    BackgroundImage backgroundImg = new BackgroundImage(
+            backgroundImage,
+            BackgroundRepeat.NO_REPEAT,
+            BackgroundRepeat.NO_REPEAT,
+            BackgroundPosition.DEFAULT,
             new BackgroundSize(700, 700, true, true, true, true));
+
     Background background = new Background(backgroundImg);
+
     instructionsPane.setBackground(background);
 
-    // nueva escena con el contenedor de instrucciones
-    Scene instructionsScene = new Scene(instructionsPane, 500, 500);
+
+
 
     // botón de "Return" para volver al menú
     Button returnButton = new Button("Return");
-    returnButton.setStyle("-fx-border-width: 2; -fx-border-color: #000000; -fx-text-fill: #0000FF; -fx-border-radius: 10; -fx-background-radius: 10;");
-    returnButton.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 26));
+
+    returnButton.setStyle("-fx-border-width: 2; " +
+            "-fx-border-color: #000000; " +
+            "-fx-text-fill: #000000; " +
+            "-fx-border-radius: 10; " +
+            "-fx-background-radius: 10;"+
+            "-fx-background-color: #FFFFFF;");
+
+    returnButton.setFont(Font.font("Comic Sans MS", 26));
 
     // Asigna un evento al botón para volver al menú principal y cerrar las instrucciones
         returnButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 stage.setScene(getSeceneMenu());
-                instructionsStage.close();
             }
         });
-
+    instructionsPane.getChildren().addAll(instructionLabels,returnButton);
     // Agrega el botón al contenedor de instrucciones
-    instructionsPane.getChildren().add(returnButton);
 
     // Configura la escena y muestra el escenario de instrucciones
-    instructionsStage.setScene(instructionsScene);
-    instructionsStage.show();
-}
+        Scene instructionsScene = new Scene(instructionsPane, 500, 500);
+        return instructionsScene;
+    }
 
 //----------------------------------------------------------------------------------------------------------------------
-
-    //                                    Personalizador de etiquetas
-    //crea etiquetas de instrucción personalizadas
-    private Label createInstructionLabel(String text) {
-        Label label = new Label(text);
-        label.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, 20));
-        label.setStyle("-fx-text-fill: #000000");
-        label.setAlignment(Pos.CENTER);
-        return label;
-    }
 
     //-----------------------------------------------------------------------------------------------------------------
 
@@ -381,12 +460,10 @@ public Scene getSceneWelcome (){
                        pauseTransition.play();
                     }//End del else
                     if(generador.juegoCompletado())
-                        ActualizarEscenarioWin(stage);
+                        stage.setScene(getSceneWin());
                 }
             });//End del evento
         }//End del for
-
-
 
 
 
@@ -394,23 +471,24 @@ public Scene getSceneWelcome (){
 
     //                                        Boton de cerrar
 
-      VBox vBox_Bottom = new VBox();
+      HBox hBox_Bottom = new HBox();
+        hBox_Bottom.setSpacing(20);
 
       Button btt_close = new Button("Close");
 
       btt_close.setFont(new Font("Comic Sans MS",26));//Se le asigna la fuente al botton
 
-      btt_close.setStyle("-fx-border-width: 2;" + "-fx-border-color: #000000;" + "-fx-text-fill: #FF310F;" +
-              "-fx-border-radius: 10;" + "-fx-background-radius: 10;");
+      btt_close.setStyle("-fx-border-width: 2;" + "-fx-border-color: #000000;" + "-fx-text-fill: #000000;" +
+              "-fx-border-radius: 10;" + "-fx-background-radius: 10;" + "-fx-background-color: #FFFF");
 
 
 
       btt_close.setMinSize(100,40);
-      vBox_Bottom.getChildren().add(btt_close);
-      vBox_Bottom.setAlignment(Pos.TOP_CENTER);
-      borderPane.setBottom(vBox_Bottom);
+        hBox_Bottom.getChildren().add(btt_close);
+        hBox_Bottom.setAlignment(Pos.TOP_CENTER);
+      borderPane.setBottom(hBox_Bottom);
 
-      BorderPane.setMargin(vBox_Bottom,new Insets(0,0,50,0));
+      BorderPane.setMargin(hBox_Bottom,new Insets(0,0,50,0));
 
       btt_close.setOnAction(new EventHandler<ActionEvent>() {
         @Override
@@ -420,7 +498,29 @@ public Scene getSceneWelcome (){
 
         }
       });
+        //-----------------------------------------------------------------------------------------------------------------
+        //                                       Botton de Volver al Menu
+        Button btt_volverAlMenu = new Button("Volver al Menu");
 
+        btt_volverAlMenu.setFont(new Font("Comic Sans MS",26));//Se le asigna la fuente al botton
+
+        btt_volverAlMenu.setStyle("-fx-border-width: 2;" + "-fx-border-color: #000000;" + "-fx-text-fill: #000000;" +
+                "-fx-border-radius: 10;" + "-fx-background-radius: 10;" + "-fx-background-color: #FFFF");
+
+
+
+        btt_volverAlMenu.setMinSize(100,40);
+        hBox_Bottom.getChildren().add(btt_volverAlMenu);
+        hBox_Bottom.setAlignment(Pos.TOP_CENTER);
+        borderPane.setBottom(hBox_Bottom);
+
+        btt_volverAlMenu.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                stage.setScene(getSeceneMenu());
+                stage.centerOnScreen();
+            }
+        });
       //----------------------------------------------------------------------------------------------------------------
 
       //                                     Boton de Reiniciar a la izquierda
@@ -524,9 +624,9 @@ public Scene getSceneWelcome (){
     public Scene getSceneWin (){
 
         // -------------------------------------------------------------------------------------------------------------
-        BorderPane b_Pane = new BorderPane(); // se instancia el contendor//----------------------------------------
+        // se instancia el contendor//----------------------------------------
         //--------------------------------------------------------------------------------------------------------------
-        // se le coloca una imagen como fondo a la escena
+        VBox vBox_Bottom = new VBox();// se le coloca una imagen como fondo a la escena
         Image img_fondo = new Image("Fondo.png");
 
         BackgroundImage bImg = new BackgroundImage(img_fondo,
@@ -535,7 +635,7 @@ public Scene getSceneWelcome (){
                 BackgroundPosition.DEFAULT,
                 new BackgroundSize(700, 700, true, true, true, true));
         Background bGround = new Background(bImg);
-        b_Pane.setBackground(bGround);
+        vBox_Bottom.setBackground(bGround);
         //--------------------------------------------------------------------------------------------------------------
 
 
@@ -545,36 +645,38 @@ public Scene getSceneWelcome (){
         labelWin.setStyle(
                 "-fx-text-fill: #70fd00;" + // Color del texto
                         "-fx-font-family: 'Kristen ITC';" + // Fuente
-                        "-fx-font-size: 100px;" + // Tamaño de fuente
+                        "-fx-font-size: 80px;" + // Tamaño de fuente
                         "-fx-effect: dropshadow(three-pass-box, #000, 10, 0, 0, 0);" // Efecto de sombra
         );
-        b_Pane.setCenter(labelWin);
+        vBox_Bottom.getChildren().add(labelWin);
+        vBox_Bottom.setAlignment(Pos.CENTER);
         //--------------------------------------------------------------------------------------------------------------
 
         //--------------------------------------------------------------------------------------------------------------
         // se crea un Vbox que contendra los botones
-        VBox vBox_Bottom = new VBox();
-        vBox_Bottom.setSpacing(10); // espacio entre los botones
+        vBox_Bottom.setSpacing(20); // espacio entre los botones
 
         // se crea un boton de volver a jugar
         Button btt_playAgain = new Button("Play Again");
         btt_playAgain.setFont(new Font("Comic Sans MS",26));//Se le asigna la fuente al botton
 
-        btt_playAgain.setStyle("-fx-border-width: 2;" + "-fx-border-color: #000000;" + "-fx-text-fill: #FF310F;" +
-                "-fx-border-radius: 10;" + "-fx-background-radius: 10;"); // se le da un estilo al boton
+        btt_playAgain.setStyle("-fx-border-width: 2;" + "-fx-border-color: #000000;" + "-fx-text-fill: #000000;" +
+                "-fx-border-radius: 10;" + "-fx-background-radius: 10;" + "-fx-background-color: #FFFF"); // se le da un estilo al boton
 
 
-
-        btt_playAgain.setMinSize(100,40); // tamaño del boton
         vBox_Bottom.getChildren().add(btt_playAgain);// se agrega al Vbox
-        vBox_Bottom.setAlignment(Pos.TOP_CENTER);// se le asgina la posicion
-        b_Pane.setBottom(vBox_Bottom);// se establece el boton
+
 
         BorderPane.setMargin(vBox_Bottom,new Insets(0,0,50,0));
 
         btt_playAgain.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                int [][] temp = new int[4][4];
+
+                generador.Board = temp;
+                generador.StartBoard();
+                MatrixGame = generador.Board;
 
                 stage.setScene(getSceneGame());
                 stage.centerOnScreen();
@@ -590,17 +692,15 @@ public Scene getSceneWelcome (){
 
         btt_close.setFont(new Font("Comic Sans MS",26));//Se le asigna la fuente al botton
 
-        btt_close.setStyle("-fx-border-width: 2;" + "-fx-border-color: #000000;" + "-fx-text-fill: #FF310F;" +
-                "-fx-border-radius: 10;" + "-fx-background-radius: 10;");// se le da estilo
+        btt_close.setStyle("-fx-border-width: 2;" + "-fx-border-color: #000000;" + "-fx-text-fill: #000000;" +
+                "-fx-border-radius: 10;" + "-fx-background-radius: 10;" + "-fx-background-color: #FFFF");// se le da estilo
 
 
 
         btt_close.setMinSize(100,40);//tamaño
         vBox_Bottom.getChildren().add(btt_close);// se agrega al Vbox
-        vBox_Bottom.setAlignment(Pos.TOP_CENTER);// se le asigna la posicion
-        b_Pane.setBottom(vBox_Bottom); // se establece el boton
 
-        BorderPane.setMargin(vBox_Bottom,new Insets(0,0,50,0));
+
 
         btt_close.setOnAction(new EventHandler<ActionEvent>() {  // se le asigna la funcion al boton
             @Override
@@ -617,16 +717,11 @@ public Scene getSceneWelcome (){
 
 
 
-        Scene scene = new Scene(b_Pane, 500, 500);
+        Scene scene = new Scene(vBox_Bottom, 500, 500);
 
         return scene;
     }
 
-    public void ActualizarEscenarioWin (Stage stage){
-
-        stage.setScene(getSceneWin());
-        stage.centerOnScreen();
-    }
 
 
 }

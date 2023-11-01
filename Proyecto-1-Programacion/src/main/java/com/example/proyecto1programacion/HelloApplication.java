@@ -45,13 +45,7 @@ public class HelloApplication extends Application {
 
 
 
-        // Configura un manejador de eventos para el botón "Instructions" del menú
-        interFace.btt_Menu_Instrucciones.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) { //Evento del botton instructions del menu
-                interFace.mostrarInstrucciones();
-            }
-        });
+
 
     }
 
