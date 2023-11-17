@@ -32,6 +32,7 @@ public class InterFACE {
         this.stage = stage;
     }
 Logic logic = new Logic();
+LogicFiles logicFiles = new LogicFiles();
 GeneradorDeMatriz generador = new GeneradorDeMatriz();//Se inistancia la clase de generacion de matriz
 int MatrixGame [][] = generador.Board;//Se guarda la matris generada en una matrix para usarse con mayor facilidad
 String nameUser = "";
@@ -75,7 +76,7 @@ public Scene getSceneWelcome (){
 
     //--------------------------------------------------------------------------------------------------------------
 
-    // se crea una label para solicitar el nombre al usario
+    // se crea una label para solicitar el nombre al usuario
     Label lb_nameInput = new Label("Insert your name");
 
     lb_nameInput.setFont(new Font("Comic Sans MS",26));//Se le asigna la fuente al label
@@ -94,6 +95,22 @@ public Scene getSceneWelcome (){
 
 
 
+    // se crea una label para solicitar el password al usuario
+    Label lb_passwordInput = new Label("Password");
+
+    lb_passwordInput.setFont(new Font("Comic Sans MS",26));//Se le asigna la fuente al label
+    lb_passwordInput.setStyle("-fx-border-width: 2;" + "-fx-text-fill: #000000;" +
+            "-fx-border-radius: 10;" + "-fx-background-radius: 10;"); // se le da un estilo al label
+
+
+    // se crea un Txt que obtendra el password del usuario
+    TextField TxT_Password = new TextField();
+    // Establece el tamaño y la fuente del TextField
+    TxT_Password.setFont(new Font("Comic Sans MS", 15));
+    TxT_Password.setMaxSize(265,100); // tamaño del Txt
+
+
+
     // se crea un boton para que cuando el usuario ingrese su name, lo envie a los creditos y posteriormente al menu de inicio
     Button btt_Start = new Button("Start");
     btt_Start.setFont(new Font("Comic Sans MS",26));//Se le asigna la fuente al botton
@@ -108,8 +125,10 @@ public Scene getSceneWelcome (){
     btt_Start.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
-            //Se le asigna lo que haya en el txt a la variable nameUser
-            nameUser = Txt_Name.getText();
+            //Se le asigna lo que haya en el txt de username a la variable nameUser
+            String nameUser = Txt_Name.getText();
+            //Se le asigna lo que haya en el txt de paswword a la variable userPassowrd
+            String userPassword = TxT_Password.getText();
             //Se revisa que haya algo escrito en el txt osea un nameUser valido
             if(nameUser.equals("")) {
                 //Si no es valido se solicita uno valido
@@ -147,7 +166,7 @@ public Scene getSceneWelcome (){
     vBox_Welcome.setAlignment(Pos.CENTER);
 
     // se agrega cada objeto al Vbox
-    vBox_Welcome.getChildren().addAll(labelWelcome,lb_nameInput,Txt_Name,btt_Start);
+    vBox_Welcome.getChildren().addAll(labelWelcome,lb_nameInput,Txt_Name,lb_passwordInput,TxT_Password,btt_Start);
     stage.centerOnScreen();
 
     Scene scene = new Scene(vBox_Welcome, 700, 700);
