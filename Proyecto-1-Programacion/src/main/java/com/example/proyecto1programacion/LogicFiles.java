@@ -69,11 +69,11 @@ public class LogicFiles {
         return ps;
     }
 
-    public void writeTextFile(String text) {
+    public void writeTextFile(String userName,String password) {
 
         PrintStream ps = getPrintStream();
 
-        ps.println(text);
+        ps.println(userName +";"+password);
 
 
     }

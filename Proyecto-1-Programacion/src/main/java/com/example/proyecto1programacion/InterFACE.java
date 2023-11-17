@@ -119,45 +119,46 @@ public Scene getSceneWelcome (){
     btt_Start.setMinSize(150, 60);// se le da tamaño
 
 
-
+    //se crea una label para informar al usuario la situacion con la contraseña
+    Label lb_infoPassword = new Label("");
+    Label lb_infoUserName = new Label("");
 
 
     btt_Start.setOnAction(new EventHandler<ActionEvent>() {
         @Override
         public void handle(ActionEvent event) {
+
+
             //Se le asigna lo que haya en el txt de username a la variable nameUser
             String nameUser = Txt_Name.getText();
             //Se le asigna lo que haya en el txt de paswword a la variable userPassowrd
             String userPassword = TxT_Password.getText();
             //Se revisa que haya algo escrito en el txt osea un nameUser valido
-            if(nameUser.equals("")) {
-                //Si no es valido se solicita uno valido
-                Txt_Name.setText("Please enter a valid username");
-                EventHandler<ActionEvent> timelineHandler = new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        //Con temporisador se vuelve a poner vacio el txt
-                        Txt_Name.setText("");
-                    }
-                };
-                // línea de tiempo para cerrar la escena de créditos
-                Timeline durationSceneCredits = new Timeline(new KeyFrame(Duration.seconds(0.25), timelineHandler));
-                durationSceneCredits.play();
 
-            }else {
-                //Si no erra igual a vacio se pasa a la scena de creditos
-                stage.setScene(getSceneCredits());
-                EventHandler<ActionEvent> timelineHandler = new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        //Cuando termina el temposidaror se pasa a la scena del menu
-                        stage.setScene(getSeceneMenu());
+
+
+                if (logicFiles.PasswordValidation(userPassword) == false || nameUser.equals("")){
+                    if(nameUser.equals("")) {
+                        //Si no es valido se solicita uno valido
+                        lb_infoUserName.setText("Please enter a valid username");
+                        Txt_Name.setText("");
+
                     }
-                };
-                // línea de tiempo para cerrar la escena de créditos
-                Timeline durationSceneCredits = new Timeline(new KeyFrame(Duration.seconds(8), timelineHandler));
-                durationSceneCredits.play();
-            }
+                    if (logicFiles.PasswordValidation(userPassword) == false) {
+                        lb_infoPassword.setText("La contraseña no se pudo guardar, revise que cumpla con los requisitos: \n  " +
+                                "Mínimo de 8 caracteres \n " +
+                                " Contener mayúsculas y minúsculas\n" +
+                                "  Al menos 1 número \n  " +
+                                "Al menos 1 símbolo" );
+                        TxT_Password.setText("");
+                    }
+
+                }
+                else {
+                    logicFiles.writeTextFile(nameUser,userPassword);
+                    lb_infoPassword.setText("Guardado exitoso");
+                    stage.setScene(getSeceneMenu());
+                }
 
 
         }
@@ -166,7 +167,7 @@ public Scene getSceneWelcome (){
     vBox_Welcome.setAlignment(Pos.CENTER);
 
     // se agrega cada objeto al Vbox
-    vBox_Welcome.getChildren().addAll(labelWelcome,lb_nameInput,Txt_Name,lb_passwordInput,TxT_Password,btt_Start);
+    vBox_Welcome.getChildren().addAll(labelWelcome,lb_nameInput,Txt_Name,lb_infoUserName,lb_passwordInput,TxT_Password,lb_infoPassword,btt_Start);
     stage.centerOnScreen();
 
     Scene scene = new Scene(vBox_Welcome, 700, 700);
