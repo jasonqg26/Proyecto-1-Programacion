@@ -16,9 +16,8 @@ import java.io.IOException;
 public class HelloApplication extends Application {
 
     InterFACE interFace = new InterFACE();
+
     Stage stage;
-
-
 
     //Se intancia la clase interface
     @Override
