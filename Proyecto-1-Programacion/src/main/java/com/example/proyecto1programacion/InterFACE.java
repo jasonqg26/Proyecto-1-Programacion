@@ -1,7 +1,11 @@
 package com.example.proyecto1programacion;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
 import javafx.animation.PauseTransition;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -25,6 +29,7 @@ public class InterFACE {
     public void setMainStage(Stage stage) {
         this.stage = stage;
     }
+
 Logic logic = new Logic();
 LogicFiles logicFiles = new LogicFiles();
 GeneradorDeMatriz generador = new GeneradorDeMatriz();//Se inistancia la clase de generacion de matriz
@@ -33,8 +38,34 @@ int[][] MatrixGame = generador.Board;//Se guarda la matris generada en una matri
 String nameUser = "";
 
 Boolean logged_in = false;
+
+
+/*
+* Son variables de instancia para mantener un seguimiento
+* continuo de la cantidad de movimientos y el tiempo
+* a lo largo del juego.
+*/
+// Etiqueta que muestra el número de movimientos realizados en el juego.
+Label labelMovimientos = new Label("Movements:\n0");
+
+// Variable de instancia que almacena la cantidad de movimientos.
+int contadorMovimientos;
+
+// Etiqueta que muestra el tiempo transcurrido durante el juego.
+Label timeLabel = new Label("Time: 0");
+
+// Cronómetro utilizado para medir el tiempo de juego.
+Timeline timeline;
+
+// Indica si el cronómetro está en ejecución.
+boolean cronometroEnEjecucion = false;
+
+// Indica si el cronómetro está en pausa.
+boolean cronometroEnPausa = false;
+
 //-------------------------------------------------------------------------------------------------------------------
 public Scene getSceneWelcome (){
+
                                          //Escena de Bienvenida
     // -------------------------------------------------------------------------------------------------------------
     VBox vBox_Welcome = new VBox(); // se instancia el contendor//
@@ -414,6 +445,54 @@ public Scene getSceneCredits() {
 
 //----------------------------------------------------------------------------------------------------------------------
 
+    //                                      Cronometro
+
+    // Método para detener el cronómetro y actualizar la variable de control
+    public void detenerCronometro() {
+        if (timeline != null) {
+            timeline.pause(); // Pausa el cronómetro en lugar de detenerlo
+            // Actualiza la variable de control del cronómetro
+            cronometroEnEjecucion = false;
+            cronometroEnPausa = true; // Indica que el cronómetro está en pausa
+        }
+    }
+
+    // Método para inicializar el cronómetro
+    public void inicializarCronometro(Label timeLabel) {
+        // Verifica si el cronómetro no está en ejecución o está en pausa
+        if (!cronometroEnEjecucion || cronometroEnPausa) {
+            detenerCronometro(); // Pausa el cronómetro actual si hay uno en ejecución
+
+            int[] segundosTranscurridos = {0};
+
+            // Manejador de eventos que se ejecuta cada segundo
+            EventHandler<ActionEvent> eventHandler = event -> {
+                segundosTranscurridos[0]++; // Incrementa los segundos transcurridos cada segundo
+                // Actualiza la etiqueta de tiempo
+                timeLabel.setText("Time: " + segundosTranscurridos[0]);
+            };
+
+            // Crea un nuevo cronómetro si no existe uno
+            if (timeline == null) {
+                timeline = new Timeline(new KeyFrame(Duration.seconds(1), eventHandler));
+                timeline.setCycleCount(Animation.INDEFINITE);
+            }
+
+            // Verifica si el cronómetro está en pausa
+            if (cronometroEnPausa) {
+                timeline.playFrom(Duration.seconds(segundosTranscurridos[0]));
+                cronometroEnPausa = false;
+            } else {
+                timeline.play();
+            }
+
+            // Actualiza la variable de control del cronómetro
+            cronometroEnEjecucion = true;
+        }
+    }
+
+
+
     //-----------------------------------------------------------------------------------------------------------------
 
     public Scene getSceneGame(){
@@ -427,16 +506,34 @@ public Scene getSceneCredits() {
 
     //-----------------------------------------------------------------------------------------------------------------
 
-    //                                        Interfaz del juego(Los cuadrados)
+        //                               Labels para el contador de movimientos
+        //                                        y el cronometro
+
+        VBox vBox_left = new VBox();
+
+        labelMovimientos.setStyle("-fx-text-fill: #000000; -fx-font-size: 20;");
+        vBox_left.getChildren().add(this.labelMovimientos);
+        vBox_left.setAlignment(Pos.CENTER);
+
+        borderPane.setLeft(vBox_left);
+        BorderPane.setMargin(vBox_left, new Insets(0, 25, 0, 25));
+
+        timeLabel.setStyle("-fx-text-fill: #000000; -fx-font-size: 20;");
+        vBox_left.getChildren().add(timeLabel);
+
+
+    //------------------------------------------------------------------------------------------------------------------
+
+        //                                        Interfaz del juego(Los cuadrados)
         //                                      creacion del gridPane
 
       GridPane gridPane = new GridPane();//Cuadriculas del juego
       gridPane.setVgap(0.5);
       gridPane.setHgap(0.5);
-      borderPane.setCenter(gridPane);//Se le asigna una posicion
+      borderPane.setCenter(gridPane );//Se le asigna una posicion
+        inicializarCronometro(timeLabel);
 
-
-    //---------------------------------------------------------------------------------------------------------------
+        //---------------------------------------------------------------------------------------------------------------
     //                                            creacion de los botones
      //Se crea 15 botones
         for (int i = 0; i <= 15; i++) {
@@ -458,7 +555,6 @@ public Scene getSceneCredits() {
             button.getProperties().put("fila", logic.GetRow(MatrixGame, i));
             button.getProperties().put("columna", logic.Getcolum(MatrixGame, i));
 
-
             int finalI = i;
 
             //Lo que sucede al precionar algun botton de los ateriormente creados
@@ -468,38 +564,42 @@ public Scene getSceneCredits() {
                     // Obtiene la fila y la columna del botón presionado
                     int fila = Integer.parseInt((button.getProperties().get("fila")).toString());
                     int columna = Integer.parseInt((button.getProperties().get("columna")).toString());
-                    //Verifica si la jugada es valida si lo es realiza el moviemto
+                    // Verifica si la jugada es válida
                     if (generador.movimientoValido(fila, columna)) {
-                        //Realiza el movimiento
+                        // Realiza el movimiento
                         generador.haceJugada(fila, columna);
-                        //Actualiza el stage
+                        // Incrementa el contador de movimientos
+                        contadorMovimientos++;
+                        // Actualiza el texto del contador de movimientos
+                        labelMovimientos.setText("Movements:\n" + contadorMovimientos);
+                        // Actualiza el stage
                         stage.setScene(getSceneGame());
                     } else {
                         // Cambiar el estilo del botón cuando el movimiento no es válido
                         if (finalI != 0) {
-                            //Crea una imagen de que el boton presionado no se puede mover
+                            // Crea una imagen de que el botón presionado no se puede mover
                             Image img_2 = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Numero Invalido/" + finalI + ".png")));
                             ImageView imgV_2 = new ImageView(img_2);
                             button.setGraphic(imgV_2);
                         }
-                        //Contrala el tiempo en que la imagen de error se mantiene
+                        // Controla el tiempo en que la imagen de error se mantiene
                         PauseTransition pauseTransition = new PauseTransition(Duration.seconds(2));
                         pauseTransition.setOnFinished(actionEvent -> {
-                            //Despues del tiempo se vuelve a la imagen anterior
+                            // Después del tiempo se vuelve a la imagen anterior
                             button.setGraphic(imgV_1);
-                        });//end de que ahcer despues de los dos segundos
-                        //Inicia el tiempo
+                        }); // end de qué hacer después de los dos segundos
+                        // Inicia el tiempo
                         pauseTransition.play();
-                    }//End del else
+                    } // End del else
                     if (generador.juegoCompletado())
                         stage.setScene(getSceneWin());
                 }
-            });//End del evento
+            });// End del evento
+
         }//End del for
 
 
-
-    //-----------------------------------------------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------------------------------------------
 
     //                                        Boton de cerrar
 
@@ -540,46 +640,10 @@ public Scene getSceneCredits() {
         borderPane.setBottom(hBox_Bottom);
 
         btt_volverAlMenu.setOnAction(actionEvent -> {
+            detenerCronometro();  // Detener el cronómetro al volver al menú
             stage.setScene(getSeceneMenu());
             stage.centerOnScreen();
         });
-      //----------------------------------------------------------------------------------------------------------------
-
-      //                                     Boton de Reiniciar a la izquierda
-
-      HBox hBox_left = new HBox();
-      Button btt_Reiniciar_left = new Button();
-
-      btt_Reiniciar_left.setMinSize(100,100);
-      hBox_left.getChildren().add(btt_Reiniciar_left);
-      hBox_left.setAlignment(Pos.CENTER);
-
-      btt_Reiniciar_left.setStyle("-fx-border-width: 2;" + "-fx-border-color: #000000;" + "-fx-background-color:#FFFF;" +
-              "-fx-border-radius: 50;" + "-fx-background-radius: 50;");
-
-      Image img_Restart = new Image("Restart().png");
-      ImageView imgV_Restart = new ImageView(img_Restart);
-
-      btt_Reiniciar_left.setGraphic(imgV_Restart);
-
-      borderPane.setLeft(hBox_left);
-      BorderPane.setMargin(hBox_left,new Insets(0,25,0,25));
-
-
-
-        //Evento del botton de reinicio de la izquierda
-      btt_Reiniciar_left.setOnAction(actionEvent -> {
-
-          generador.Board = new int[4][4];
-          generador.StartBoard();
-          MatrixGame = generador.Board;
-          stage.setScene(getSceneGame());
-
-
-
-      });
-
-
 
       //----------------------------------------------------------------------------------------------------------------
 
@@ -606,16 +670,20 @@ public Scene getSceneCredits() {
 
         //Evento del botton de reinicio de la Derecha
         btt_Reiniciar_ring.setOnAction(actionEvent -> {
-
+            detenerCronometro();   // Restablecer el cronómetro
+            timeLabel.setText("Time: 0");
             generador.Board = new int[4][4];
             generador.StartBoard();
             MatrixGame = generador.Board;
+            contadorMovimientos = 0;  // Reiniciar el contador
+            labelMovimientos.setText("Movements:\n0");  // Actualizar la etiqueta
+            inicializarCronometro(timeLabel); //reinicia el cronometro
             stage.setScene(getSceneGame());
 
         });
 
 
-    //-----------------------------------------------------------------------------------------------------------------
+        //-----------------------------------------------------------------------------------------------------------------
       //                                          titulo del juego
 
 
@@ -623,7 +691,6 @@ public Scene getSceneCredits() {
       Label lb_Titulo = new Label("TAKES GAME");
       lb_Titulo.setStyle("-fx-text-fill: #5790B9;");//Se da le asigna el color
       lb_Titulo.setFont(new Font("Kristen ITC",32));//Se le asigna la fuente al titulo
-
       hBox_Top.getChildren().add(lb_Titulo);
       hBox_Top.setAlignment(Pos.CENTER);
       borderPane.setTop(hBox_Top);
@@ -639,6 +706,7 @@ public Scene getSceneCredits() {
 
 
     public Scene getSceneWin (){
+        detenerCronometro();  // Detener el cronómetro al ganar el juego
 
         // -------------------------------------------------------------------------------------------------------------
         // se instancia el contendor//----------------------------------------
@@ -691,6 +759,7 @@ public Scene getSceneCredits() {
             generador.Board = new int[4][4];
             generador.StartBoard();
             MatrixGame = generador.Board;
+
 
             stage.setScene(getSceneGame());
             stage.centerOnScreen();
