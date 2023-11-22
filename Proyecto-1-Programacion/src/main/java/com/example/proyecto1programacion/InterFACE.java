@@ -492,6 +492,32 @@ public Scene getSceneCredits() {
         }
     }
 
+    // Método para reiniciar el cronómetro desde cero
+    public void reiniciarCronometroDesdeCero(Label timeLabel) {
+        detenerCronometro(); // Detener el cronómetro actual si hay uno en ejecución
+
+        // Reiniciar variables
+        int[] segundosTranscurridos = {0};
+
+        // Manejador de eventos que se ejecuta cada segundo
+        EventHandler<ActionEvent> eventHandler = event -> {
+            segundosTranscurridos[0]++; // Incrementa los segundos transcurridos cada segundo
+            // Actualiza la etiqueta de tiempo
+            timeLabel.setText("Time: " + segundosTranscurridos[0]);
+        };
+
+        // Crear un nuevo cronómetro
+        timeline = new Timeline(new KeyFrame(Duration.seconds(1), eventHandler));
+        timeline.setCycleCount(Animation.INDEFINITE);
+
+        // Iniciar el cronómetro
+        timeline.play();
+
+        // Actualizar la variable de control del cronómetro
+        cronometroEnEjecucion = true;
+        cronometroEnPausa = false; // Restablecer el estado de pausa
+    }
+
 
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -671,14 +697,15 @@ public Scene getSceneCredits() {
 
         //Evento del botton de reinicio de la Derecha
         btt_Reiniciar_ring.setOnAction(actionEvent -> {
-            detenerCronometro();   // Restablecer el cronómetro
-            timeLabel.setText("Time: 0");
+            // Detener y reiniciar el cronómetro
+            reiniciarCronometroDesdeCero(timeLabel);
+            // Reiniciar variables
+            contadorMovimientos = 0;
+            labelMovimientos.setText("Movements:\n0");
+            // Reiniciar el juego
             generador.Board = new int[4][4];
             generador.StartBoard();
             MatrixGame = generador.Board;
-            contadorMovimientos = 0;  // Reiniciar el contador
-            labelMovimientos.setText("Movements:\n0");  // Actualizar la etiqueta
-            inicializarCronometro(timeLabel); //reinicia el cronometro
             stage.setScene(getSceneGame());
 
         });
