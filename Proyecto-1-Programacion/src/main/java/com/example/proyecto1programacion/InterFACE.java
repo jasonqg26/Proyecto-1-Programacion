@@ -35,7 +35,7 @@ LogicFiles logicFiles = new LogicFiles();
 GeneradorDeMatriz generador = new GeneradorDeMatriz();//Se inistancia la clase de generacion de matriz
 
 int[][] MatrixGame = generador.Board;//Se guarda la matris generada en una matrix para usarse con mayor facilidad
-String nameUser = "";
+
 
 Boolean logged_in = false;
 
@@ -214,15 +214,16 @@ public Scene getSceneCredits() {
     vBoxCredits.setSpacing(20);
 
     // etiquetas de créditos
-    Label labelWelcome = creditsLabels("¡Bienvenido " + nameUser + "!", 45);
     Label labelCredits = creditsLabels("Créditos", 45);
-    Label labelCredit1 = creditsLabels("""
-            Desarrollado por:
+    labelCredits.setAlignment(Pos.CENTER);
+    Label labelCredit1 = creditsLabels("Proyecto desarrolado por: ",30);
+    Label labelCredit2 = creditsLabels("""
             Alexander Fallas Sanabria C32838
             Jason Quesada Gómez C36213
             Fabian Quesada Cordero C36202""", 30);
-    Label labelCredit2 = creditsLabels("Proyecto del curso IF2000", 30);
-    Label labelCredit3 = creditsLabels("Año: 2023", 30);
+
+    Label labelCredit3 = creditsLabels("Proyecto del curso IF2000", 30);
+    Label labelCredit4 = creditsLabels("Año: 2023", 30);
 
     Image backgroundImage = new Image("Fondo3.png.jpg");
 
@@ -239,7 +240,7 @@ public Scene getSceneCredits() {
 
 
     // Agrega las etiquetas al contenedor VBox
-    vBoxCredits.getChildren().addAll(labelWelcome, labelCredits, labelCredit1, labelCredit2, labelCredit3);
+    vBoxCredits.getChildren().addAll( labelCredits, labelCredit1, labelCredit2, labelCredit3,labelCredit4);
 
     // Crea la escena de créditos
     BorderPane  borderPane_menu_and_welcome = new BorderPane();
@@ -807,7 +808,7 @@ public Scene getSceneCredits() {
 
         MenuBar menuBar = new MenuBar();
 
-        Menu menu_Star = new Menu("Star");
+        Menu menu_Star = new Menu("Start");
 
         MenuItem menu_Create_Account = new MenuItem("Log in");
         menu_Create_Account.setOnAction(actionEvent -> stage.setScene(getSceneWelcome()));
@@ -847,7 +848,7 @@ public Scene getSceneCredits() {
         MenuItem menu_List_of_the_best_10_players = new MenuItem("List of the best 10 players");
         menu_Reportes.getItems().addAll(menu_List_of_gamest,menu_List_of_games_per_player,menu_List_of_the_best_10_players);
 
-        Menu menu_Ayuda = new Menu("Ayuda");
+        Menu menu_Ayuda = new Menu("Help");
         MenuItem menu_Credits = new MenuItem("Credits");
         menu_Credits.setOnAction(actionEvent -> stage.setScene(getSceneCredits()));
 
