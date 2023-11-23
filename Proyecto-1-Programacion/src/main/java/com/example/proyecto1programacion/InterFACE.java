@@ -251,7 +251,7 @@ public Scene getSceneCredits() {
 }
     //--------------------------------------------------------------------------------------------------------------
 
-   //                                          Perosonalizador de etiquetas
+   //                                          Personalizador de etiquetas
 
     // Función para crear etiquetas con fuente y estilo personalizados
     public Label creditsLabels(String text, int fontSize) {
@@ -469,8 +469,11 @@ public Scene getSceneCredits() {
             // Manejador de eventos que se ejecuta cada segundo
             EventHandler<ActionEvent> eventHandler = event -> {
                 segundosTranscurridos[0]++; // Incrementa los segundos transcurridos cada segundo
+                int minutos = segundosTranscurridos[0] / 60;
+                int segundos = segundosTranscurridos[0] % 60;
+
                 // Actualiza la etiqueta de tiempo
-                timeLabel.setText("Time: " + segundosTranscurridos[0]);
+                timeLabel.setText("Time: \n" + minutos + "m " + segundos + "s");
             };
 
             // Crea un nuevo cronómetro si no existe uno
@@ -502,8 +505,11 @@ public Scene getSceneCredits() {
         // Manejador de eventos que se ejecuta cada segundo
         EventHandler<ActionEvent> eventHandler = event -> {
             segundosTranscurridos[0]++; // Incrementa los segundos transcurridos cada segundo
+            int minutos = segundosTranscurridos[0] / 60;
+            int segundos = segundosTranscurridos[0] % 60;
+
             // Actualiza la etiqueta de tiempo
-            timeLabel.setText("Time: " + segundosTranscurridos[0]);
+            timeLabel.setText("Time: \n" + minutos + "m " + segundos + "s");
         };
 
         // Crear un nuevo cronómetro
@@ -536,20 +542,28 @@ public Scene getSceneCredits() {
         //                               Labels para el contador de movimientos
         //                                        y el cronometro
 
+        // Crear un contenedor VBox para organizar verticalmente los elementos
         VBox vBox_left = new VBox();
+      // Establece el estilo para labelMovimientos
+        labelMovimientos.setStyle("-fx-text-fill: #000000; -fx-font-size: 20; -fx-font-weight: bold; " +
+                "-fx-font-family: 'Comic Sans MS';");
 
-        labelMovimientos.setStyle("-fx-text-fill: #000000; -fx-font-size: 20;");
+      // Agrega labelMovimientos al contenedor VBox
         vBox_left.getChildren().add(this.labelMovimientos);
         vBox_left.setAlignment(Pos.CENTER);
-
         borderPane.setLeft(vBox_left);
         BorderPane.setMargin(vBox_left, new Insets(0, 25, 0, 25));
 
-        timeLabel.setStyle("-fx-text-fill: #000000; -fx-font-size: 20;");
+      // Establece el estilo para timeLabel
+        timeLabel.setStyle("-fx-text-fill: #000000; -fx-font-size: 20; -fx-font-weight: bold; " +
+                "-fx-font-family: 'Comic Sans MS';");
+      // Agregar timeLabel al contenedor VBox
         vBox_left.getChildren().add(timeLabel);
 
 
-    //------------------------------------------------------------------------------------------------------------------
+
+
+        //------------------------------------------------------------------------------------------------------------------
 
         //                                        Interfaz del juego(Los cuadrados)
         //                                      creacion del gridPane
