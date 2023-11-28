@@ -701,7 +701,6 @@ public Scene getSceneCredits() {
 
         btt_volverAlMenu.setOnAction(actionEvent -> {
             detenerCronometro();  // Detener el cronómetro al volver al menú
-            // Guardar datos antes de reiniciar
             stage.setScene(getSeceneMenu());
             stage.centerOnScreen();
         });
@@ -731,8 +730,6 @@ public Scene getSceneCredits() {
 
         //Evento del botton de reinicio de la Derecha
         btt_Reiniciar_ring.setOnAction(actionEvent -> {
-            // Guardar datos antes de reiniciar
-            guardarDatosEnArchivo();
             // Detener y reiniciar el cronómetro
             reiniciarCronometroDesdeCero(timeLabel);
             // Reiniciar variables
@@ -772,10 +769,10 @@ public Scene getSceneCredits() {
 
     public void guardarDatosEnArchivo() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("juegosJugados.txt", true))) {
-            // Se añaden los datos al archivo en el formato deseado
-            // Obtiene la fecha y hora actuales
+            //añaden los datos al archivo en el formato deseado
+            //Obtiene la fecha y hora actuales
             LocalDateTime now = LocalDateTime.now();
-            // Formatea la fecha y hora
+            //Formatea la fecha y hora
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             String formattedDateTime = now.format(formatter);
             //escribe toda la informacion del jugador
