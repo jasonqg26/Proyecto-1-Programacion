@@ -1,0 +1,30 @@
+Nombre de Usuario: Alex
+Movimientos: 0
+Tiempo: Time: 
+0m 10s
+------------------------------------
+Nombre de Usuario: Alex
+Movimientos: 0
+Tiempo: Time: 
+0m 13s
+------------------------------------
+Nombre de Usuario: Alex
+Movimientos: 14
+Tiempo: Time: 
+0m 6s
+------------------------------------
+Nombre de Usuario: Asda
+Movimientos: 0
+Tiempo: Time: 
+0m 5s
+------------------------------------
+Nombre de Usuario: Asda
+Movimientos: 0
+Tiempo: Time: 
+0m 5s
+------------------------------------
+Nombre de Usuario: Asda
+Movimientos: 0
+Tiempo: Time: 
+0m 5s
+------------------------------------

@@ -20,6 +20,9 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Objects;
 
 
@@ -62,6 +65,8 @@ boolean cronometroEnEjecucion = false;
 
 // Indica si el cronómetro está en pausa.
 boolean cronometroEnPausa = false;
+
+TextField Txt_Name;
 
 //-------------------------------------------------------------------------------------------------------------------
 public Scene getSceneWelcome (){
@@ -115,7 +120,7 @@ public Scene getSceneWelcome (){
 
 
     // se crea un Txt que obtendra el name del usuario
-    TextField Txt_Name = new TextField();
+    Txt_Name = new TextField();
     // Establece el tamaño y la fuente del TextField
     Txt_Name.setFont(new Font("Comic Sans MS", 15));
     Txt_Name.setMaxSize(265,100); // tamaño del Txt
@@ -663,7 +668,12 @@ public Scene getSceneCredits() {
 
       BorderPane.setMargin(hBox_Bottom,new Insets(0,0,50,0));
 
-      btt_close.setOnAction(actionEvent -> Platform.exit());
+        // Evento del botón "Close"
+        btt_close.setOnAction(actionEvent -> {
+            // Guardar datos antes de cerrar el juego
+            guardarDatosEnArchivo();
+            Platform.exit();
+        });
         //-----------------------------------------------------------------------------------------------------------------
         //                                       Botton de Volver al Menu
         Button btt_volverAlMenu = new Button("Back to menu");
@@ -682,6 +692,8 @@ public Scene getSceneCredits() {
 
         btt_volverAlMenu.setOnAction(actionEvent -> {
             detenerCronometro();  // Detener el cronómetro al volver al menú
+            // Guardar datos antes de reiniciar
+            guardarDatosEnArchivo();
             stage.setScene(getSeceneMenu());
             stage.centerOnScreen();
         });
@@ -711,6 +723,8 @@ public Scene getSceneCredits() {
 
         //Evento del botton de reinicio de la Derecha
         btt_Reiniciar_ring.setOnAction(actionEvent -> {
+            // Guardar datos antes de reiniciar
+            guardarDatosEnArchivo();
             // Detener y reiniciar el cronómetro
             reiniciarCronometroDesdeCero(timeLabel);
             // Reiniciar variables
@@ -723,7 +737,6 @@ public Scene getSceneCredits() {
             stage.setScene(getSceneGame());
 
         });
-
 
         //-----------------------------------------------------------------------------------------------------------------
       //                                          titulo del juego
@@ -746,6 +759,26 @@ public Scene getSceneCredits() {
         return new Scene(borderPane_menu_and_welcome, 700, 700);
     }
 
+    //------------------------------------------------------------------------------------------------------------------
+    //                                Método para guardar los datos en un archivo
+
+    public void guardarDatosEnArchivo() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("datos_partida.txt", true))) {
+            // Se añaden los datos al archivo en el formato deseado
+            //obtiene el nombre de usuario
+            writer.write("Username: " + Txt_Name.getText() + "\n");
+            //guarda la cantidad de movimientos realizados en el juego
+            writer.write("Movements: " + contadorMovimientos + "\n");
+            //guarda el tiempo transcurrido durante el juego
+            writer.write( timeLabel.getText() + "\n");
+            //agrega una línea divisoria para separar las entradas de diferentes partidas
+            writer.write("------------------------------------\n");
+        } catch (IOException e) {
+            System.out.println("Problemas con el archivo.");
+        }
+    }
+
+    //----------------------------------------------------------------------------------------------------------------
 
     public Scene getSceneWin (){
         detenerCronometro();  // Detener el cronómetro al ganar el juego
@@ -798,6 +831,7 @@ public Scene getSceneCredits() {
 
         btt_playAgain.setOnAction(actionEvent -> {
 
+            guardarDatosEnArchivo(); // Guardar datos antes de volver a jugar
             generador.Board = new int[4][4];
             generador.StartBoard();
             MatrixGame = generador.Board;
@@ -825,13 +859,10 @@ public Scene getSceneCredits() {
         vBox_Bottom.getChildren().add(btt_close);// se agrega al Vbox
 
 
-        // se le asigna la funcion al boton
         btt_close.setOnAction(actionEvent -> {
-
+            guardarDatosEnArchivo();
             Platform.exit(); // cerrar la app
-
         });
-
         //--------------------------------------------------------------------------------------------------------------
 
 
