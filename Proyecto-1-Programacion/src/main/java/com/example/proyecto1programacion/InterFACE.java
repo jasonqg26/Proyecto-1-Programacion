@@ -68,7 +68,9 @@ boolean cronometroEnEjecucion = false;
 // Indica si el cronómetro está en pausa.
 boolean cronometroEnPausa = false;
 
-TextField Txt_Name;
+
+
+String UserName = "";
 
 //-------------------------------------------------------------------------------------------------------------------
 public Scene getSceneWelcome (){
@@ -120,7 +122,7 @@ public Scene getSceneWelcome (){
 
 
 
-
+    TextField Txt_Name;
     // se crea un Txt que obtendra el name del usuario
     Txt_Name = new TextField();
     // Establece el tamaño y la fuente del TextField
@@ -170,30 +172,35 @@ public Scene getSceneWelcome (){
         //Se revisa que haya algo escrito en el txt osea un nameUser valido
 
 
+                if (!logicFiles.PasswordValidation(userPassword) || nameUser.isEmpty()){
+                    if(nameUser.isEmpty()) {
+                        //Si no es valido se solicita uno valido
+                        lb_infoUserName.setText("Please enter a valid username");
+                        Txt_Name.setText("");
 
-        if (!logicFiles.PasswordValidation(userPassword) || nameUser.isEmpty()){
-            if(nameUser.isEmpty()) {
-                //Si no es valido se solicita uno valido
-                lb_infoUserName.setText("Please enter a valid username");
-                Txt_Name.setText("");
-
-            }
-            if (!logicFiles.PasswordValidation(userPassword)) {
-                lb_infoPassword.setText("""
+                    }
+                    if (!logicFiles.PasswordValidation(userPassword)) {
+                        lb_infoPassword.setText("""
                         La contraseña no se pudo guardar, revise que cumpla con los requisitos:\s
                           Mínimo de 8 caracteres\s
                           Contener mayúsculas y minúsculas
                           Al menos 1 número\s
                           Al menos 1 símbolo""");
-                pss_Password.setText("");
-            }
+                        pss_Password.setText("");
+                    }
 
-        }
-        else {
-            logicFiles.writeTextFile(nameUser,userPassword);
-            lb_infoPassword.setText("Guardado exitoso");
-            stage.setScene(getSeceneMenu());
-        }
+                } else if (!logicFiles.user_found(nameUser)) {
+                    logicFiles.writeTextFile(nameUser,userPassword);
+                    lb_infoPassword.setText("Guardado exitoso");
+                    UserName = nameUser;
+                    stage.setScene(getSeceneMenu());
+                } else if (logicFiles.user_found(nameUser) && logicFiles.password_found(userPassword)) {
+
+                    UserName = nameUser;
+                    stage.setScene(getSeceneMenu());
+
+                } else
+                    lb_infoPassword.setText("Contraseña no valida");
 
 
     });
@@ -695,7 +702,6 @@ public Scene getSceneCredits() {
         btt_volverAlMenu.setOnAction(actionEvent -> {
             detenerCronometro();  // Detener el cronómetro al volver al menú
             // Guardar datos antes de reiniciar
-            guardarDatosEnArchivo();
             stage.setScene(getSeceneMenu());
             stage.centerOnScreen();
         });
@@ -773,7 +779,7 @@ public Scene getSceneCredits() {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             String formattedDateTime = now.format(formatter);
             //escribe toda la informacion del jugador
-            writer.write(Txt_Name.getText() + "; "
+            writer.write(UserName + "; "
                     + "Date: " + formattedDateTime + "; "
                     + " Movements: " + contadorMovimientos + "; "
                     + timeLabel.getText() + "\n");

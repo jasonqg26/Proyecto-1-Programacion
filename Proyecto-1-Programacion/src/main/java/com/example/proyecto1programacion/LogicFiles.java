@@ -114,6 +114,29 @@ public class LogicFiles  {
         return user_found_1;
     }
 
+    public boolean password_found(String Password) {
+        boolean password_found_1 = false;
+
+        try (BufferedReader reader = getBufferedReader()) {
+            String line = reader.readLine();
+            while (line != null) {
+                // Busca la línea con el usuario proporcionado y establece user_found_1 en true si lo encuentra
+                if(line.substring(line.indexOf(";")+1).equals(Password))
+                    password_found_1 = true;
+                line = reader.readLine();
+            }
+        } catch (IOException e) {
+            // Manejo de excepciones si no se puede leer el archivo
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Mensaje de error");
+            alert.setHeaderText("Problemas con el archivo");
+            alert.setContentText("No se pudo leer del archivo");
+            alert.showAndWait();
+        }
+
+        return password_found_1;
+    }
+
 
     public void changePassword(String userName, String newPassword) {
         File tempFile = new File("temp_acceso.txt");
