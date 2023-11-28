@@ -23,6 +23,8 @@ import javafx.util.Duration;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 
@@ -763,16 +765,18 @@ public Scene getSceneCredits() {
     //                                Método para guardar los datos en un archivo
 
     public void guardarDatosEnArchivo() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("datos_partida.txt", true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("juegosJugados.txt", true))) {
             // Se añaden los datos al archivo en el formato deseado
-            //obtiene el nombre de usuario
-            writer.write("Username: " + Txt_Name.getText() + "\n");
-            //guarda la cantidad de movimientos realizados en el juego
-            writer.write("Movements: " + contadorMovimientos + "\n");
-            //guarda el tiempo transcurrido durante el juego
-            writer.write( timeLabel.getText() + "\n");
-            //agrega una línea divisoria para separar las entradas de diferentes partidas
-            writer.write("------------------------------------\n");
+            // Obtiene la fecha y hora actuales
+            LocalDateTime now = LocalDateTime.now();
+            // Formatea la fecha y hora
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String formattedDateTime = now.format(formatter);
+            //escribe toda la informacion del jugador
+            writer.write(Txt_Name.getText() + "; "
+                    + "Date: " + formattedDateTime + "; "
+                    + " Movements: " + contadorMovimientos + "; "
+                    + timeLabel.getText() + "\n");
         } catch (IOException e) {
             System.out.println("Problemas con el archivo.");
         }
