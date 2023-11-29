@@ -186,7 +186,7 @@ public Scene getSceneWelcome (){
                           Mínimo de 8 caracteres\s
                           Contener mayúsculas y minúsculas
                           Al menos 1 número\s
-                          Al menos 1 símbolo""");
+                          Al menos 1 símbolo """);
                         pss_Password.setText("");
                     }
 
