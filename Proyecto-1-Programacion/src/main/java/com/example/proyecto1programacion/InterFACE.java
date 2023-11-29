@@ -5,6 +5,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -26,7 +27,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Objects;
+import java.util.*;
 
 
 public class InterFACE {
@@ -924,7 +925,7 @@ public Scene getSceneCredits() {
 
 
         MenuItem menu_List_of_games_per_player= new MenuItem("List of games per player sorted by date");
-        menu_List_of_games_per_player.setOnAction(actionEvent -> stage.setScene(getGamesBydateList()));
+        menu_List_of_games_per_player.setOnAction(actionEvent -> stage.setScene(getGamesByDateList()));
 
 
         MenuItem menu_List_of_the_best_10_players = new MenuItem("List of the best 10 players");
@@ -1103,41 +1104,50 @@ public Scene getSceneCredits() {
     }
 
 
-    public Scene getGamesBydateList (){
+    public Scene getGamesByDateList() {
+        //Obtene los jugadores directamente de la lógica
+        ObservableList<Player> players = logicFiles.getDataTableView();
 
-        VBox vB_GamesBydateList = new VBox();
-        vB_GamesBydateList.setSpacing(10);
-        Label lb_GamesByDateName = new Label("GAMES BY PLAYER DATE");
-        lb_GamesByDateName.setFont(new Font("Comic Sans MS",26));//Se le asigna la fuente al label
-        lb_GamesByDateName.setStyle("-fx-border-width: 2;" + "-fx-text-fill: #000000;" +
-                "-fx-border-radius: 10;" + "-fx-background-radius: 10;"); // se le da un estilo al label
+        //Ordena los jugadores por fecha antes de mostrarlos
+        Collections.sort(players, Comparator.comparing(Player::getDate).reversed());
 
-        TableView tableGamesBydateList = new TableView();
-        tableGamesBydateList.setEditable(false);
+        VBox vB_Gamelist = new VBox();
+        vB_Gamelist.setSpacing(10);
+        Label lb_GameListName = new Label("GAME LIST BY DATE");
+        lb_GameListName.setFont(new Font("Comic Sans MS", 26));
+        lb_GameListName.setStyle("-fx-border-width: 2;" + "-fx-text-fill: #000000;" +
+                "-fx-border-radius: 10;" + "-fx-background-radius: 10;");
 
-        TableColumn tc_playerName = new TableColumn("Player");
+        TableView<Player> tableGameList = new TableView<>();
+        tableGameList.setEditable(false);
+
+        TableColumn<Player, String> tc_playerName = new TableColumn<>("Player");
         tc_playerName.setPrefWidth(175);
-        TableColumn tc_dateGame = new TableColumn("Date");
+        TableColumn<Player, String> tc_dateGame = new TableColumn<>("Date");
         tc_dateGame.setPrefWidth(175);
-        TableColumn tc_durationTime = new TableColumn("Duration time");
+        TableColumn<Player, String> tc_durationTime = new TableColumn<>("Duration time");
         tc_durationTime.setPrefWidth(175);
-        TableColumn tc_totalMovements = new TableColumn("Total movements");
+        TableColumn<Player, String> tc_totalMovements = new TableColumn<>("Total movements");
         tc_totalMovements.setPrefWidth(175);
 
-        tableGamesBydateList.getColumns().addAll(tc_playerName,tc_dateGame,tc_durationTime,tc_totalMovements);
+        tableGameList.getColumns().addAll(tc_playerName, tc_dateGame, tc_durationTime, tc_totalMovements);
 
+        tc_playerName.setCellValueFactory(new PropertyValueFactory<>("player"));
+        tc_dateGame.setCellValueFactory(new PropertyValueFactory<>("date"));
+        tc_durationTime.setCellValueFactory(new PropertyValueFactory<>("durationTime"));
+        tc_totalMovements.setCellValueFactory(new PropertyValueFactory<>("totalMovements"));
 
+        tableGameList.setItems(players);
 
-
-        vB_GamesBydateList.getChildren().addAll(lb_GamesByDateName, tableGamesBydateList);
-
+        vB_Gamelist.getChildren().addAll(lb_GameListName, tableGameList);
 
         BorderPane borderPane_menu_and_welcome = new BorderPane();
         borderPane_menu_and_welcome.setTop(getVBoxMenu());
-        borderPane_menu_and_welcome.setCenter(vB_GamesBydateList);
+        borderPane_menu_and_welcome.setCenter(vB_Gamelist);
 
         return new Scene(borderPane_menu_and_welcome, 700, 700);
     }
+
 
 
 
