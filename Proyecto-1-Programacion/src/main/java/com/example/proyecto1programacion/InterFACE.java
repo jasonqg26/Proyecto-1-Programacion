@@ -11,6 +11,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -487,7 +488,7 @@ public Scene getSceneCredits() {
                 int segundos = segundosTranscurridos[0] % 60;
 
                 // Actualiza la etiqueta de tiempo
-                timeLabel.setText("Time: \n" + minutos + "m " + segundos + "s");
+                timeLabel.setText("Time:" + minutos + "m " + segundos + "s");
             };
 
             // Crea un nuevo cronómetro si no existe uno
@@ -523,7 +524,7 @@ public Scene getSceneCredits() {
             int segundos = segundosTranscurridos[0] % 60;
 
             // Actualiza la etiqueta de tiempo
-            timeLabel.setText("Time: \n" + minutos + "m " + segundos + "s");
+            timeLabel.setText("Time: " + minutos + "m " + segundos + "s");
         };
 
         // Crear un nuevo cronómetro
@@ -776,10 +777,10 @@ public Scene getSceneCredits() {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             String formattedDateTime = now.format(formatter);
             //escribe toda la informacion del jugador
-            writer.write(UserName + "; "
-                    + "Date: " + formattedDateTime + "; "
-                    + " Movements: " + contadorMovimientos + "; "
-                    + timeLabel.getText() + "\n");
+            writer.write(UserName + ";"
+                    + "Date: " + formattedDateTime + ";"
+                    +  timeLabel.getText() + ";"
+                    + " Movements: " + contadorMovimientos + "\n");
         } catch (IOException e) {
             System.out.println("Problemas con el archivo.");
         }
@@ -922,9 +923,19 @@ public Scene getSceneCredits() {
         menu_Game.getItems().addAll(menu_TAKEN_GAME);
 
         Menu menu_Reportes = new Menu("Reports");
+
         MenuItem menu_List_of_gamest = new MenuItem("List of games");
+        menu_List_of_gamest.setOnAction(actionEvent -> stage.setScene(getGameList()));
+
+
         MenuItem menu_List_of_games_per_player= new MenuItem("List of games per player sorted by date");
+        menu_List_of_games_per_player.setOnAction(actionEvent -> stage.setScene(getGamesBydateList()));
+
+
         MenuItem menu_List_of_the_best_10_players = new MenuItem("List of the best 10 players");
+        menu_List_of_the_best_10_players.setOnAction(actionEvent -> stage.setScene(getTop10List()));
+
+
         menu_Reportes.getItems().addAll(menu_List_of_gamest,menu_List_of_games_per_player,menu_List_of_the_best_10_players);
 
         Menu menu_Ayuda = new Menu("Help");
@@ -1054,5 +1065,116 @@ public Scene getSceneCredits() {
 
     }
 
+    public Scene getGameList (){
 
+        VBox vB_Gamelist = new VBox();
+        vB_Gamelist.setSpacing(10);
+        Label lb_GameListName = new Label("GAME LIST");
+        lb_GameListName.setFont(new Font("Comic Sans MS",26));//Se le asigna la fuente al label
+        lb_GameListName.setStyle("-fx-border-width: 2;" + "-fx-text-fill: #000000;" +
+                "-fx-border-radius: 10;" + "-fx-background-radius: 10;"); // se le da un estilo al label
+
+        TableView tableGameList = new TableView();
+        tableGameList.setEditable(false);
+
+        TableColumn tc_playerName = new TableColumn("Player");
+        tc_playerName.setPrefWidth(175);
+        TableColumn tc_dateGame = new TableColumn("Date");
+        tc_dateGame.setPrefWidth(175);
+        TableColumn tc_durationTime = new TableColumn("Duration time");
+        tc_durationTime.setPrefWidth(175);
+        TableColumn tc_totalMovements = new TableColumn("Total movements");
+        tc_totalMovements.setPrefWidth(175);
+
+        tableGameList.getColumns().addAll(tc_playerName,tc_dateGame, tc_durationTime,tc_totalMovements);
+
+
+        tc_playerName.setCellValueFactory(new PropertyValueFactory<>("player"));
+        tc_dateGame.setCellValueFactory(new PropertyValueFactory<>("date"));
+        tc_durationTime.setCellValueFactory(new PropertyValueFactory<>("durationTime"));
+        tc_totalMovements.setCellValueFactory(new PropertyValueFactory<>("totalMovements"));
+        tableGameList.setItems(logicFiles.getDataTableView());
+
+
+
+        vB_Gamelist.getChildren().addAll(lb_GameListName, tableGameList);
+
+
+        BorderPane borderPane_menu_and_welcome = new BorderPane();
+        borderPane_menu_and_welcome.setTop(getVBoxMenu());
+        borderPane_menu_and_welcome.setCenter(vB_Gamelist);
+
+        return new Scene(borderPane_menu_and_welcome, 700, 700);
+    }
+
+
+    public Scene getGamesBydateList (){
+
+        VBox vB_GamesBydateList = new VBox();
+        vB_GamesBydateList.setSpacing(10);
+        Label lb_GamesByDateName = new Label("GAMES BY PLAYER DATE");
+        lb_GamesByDateName.setFont(new Font("Comic Sans MS",26));//Se le asigna la fuente al label
+        lb_GamesByDateName.setStyle("-fx-border-width: 2;" + "-fx-text-fill: #000000;" +
+                "-fx-border-radius: 10;" + "-fx-background-radius: 10;"); // se le da un estilo al label
+
+        TableView tableGamesBydateList = new TableView();
+        tableGamesBydateList.setEditable(false);
+
+        TableColumn tc_playerName = new TableColumn("Player");
+        tc_playerName.setPrefWidth(175);
+        TableColumn tc_dateGame = new TableColumn("Date");
+        tc_dateGame.setPrefWidth(175);
+        TableColumn tc_durationTime = new TableColumn("Duration time");
+        tc_durationTime.setPrefWidth(175);
+        TableColumn tc_totalMovements = new TableColumn("Total movements");
+        tc_totalMovements.setPrefWidth(175);
+
+        tableGamesBydateList.getColumns().addAll(tc_playerName,tc_dateGame,tc_durationTime,tc_totalMovements);
+
+
+
+
+        vB_GamesBydateList.getChildren().addAll(lb_GamesByDateName, tableGamesBydateList);
+
+
+        BorderPane borderPane_menu_and_welcome = new BorderPane();
+        borderPane_menu_and_welcome.setTop(getVBoxMenu());
+        borderPane_menu_and_welcome.setCenter(vB_GamesBydateList);
+
+        return new Scene(borderPane_menu_and_welcome, 700, 700);
+    }
+
+
+
+    public Scene getTop10List (){
+
+        VBox vB_top10List = new VBox();
+        vB_top10List.setSpacing(10);
+        Label lb_top10ListName = new Label("TOP 10 PLAYERS");
+        lb_top10ListName.setFont(new Font("Comic Sans MS",26));//Se le asigna la fuente al label
+        lb_top10ListName.setStyle("-fx-border-width: 2;" + "-fx-text-fill: #000000;" +
+                "-fx-border-radius: 10;" + "-fx-background-radius: 10;"); // se le da un estilo al label
+
+        TableView tabletop10List = new TableView();
+        tabletop10List.setEditable(false);
+
+        TableColumn tc_playerName = new TableColumn("Player");
+        tc_playerName.setPrefWidth(200);
+        TableColumn tc_totalMovements = new TableColumn("Total movements");
+        tc_totalMovements.setPrefWidth(500);
+
+        tabletop10List.getColumns().addAll(tc_playerName,tc_totalMovements);
+
+
+
+
+        vB_top10List.getChildren().addAll(lb_top10ListName, tabletop10List);
+
+
+        BorderPane borderPane_menu_and_welcome = new BorderPane();
+        borderPane_menu_and_welcome.setTop(getVBoxMenu());
+        borderPane_menu_and_welcome.setCenter(vB_top10List);
+
+        return new Scene(borderPane_menu_and_welcome, 700, 700);
+    }
 }

@@ -1,8 +1,12 @@
 package com.example.proyecto1programacion;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 public class LogicFiles  {
     // Archivo de acceso predeterminado
@@ -180,4 +184,108 @@ public class LogicFiles  {
             alert.showAndWait();
         }
     }
+
+
+    public BufferedReader getBufferedReaderReports() {
+
+        File fileGameList = new File("juegosJugados.txt");
+        BufferedReader br = null;
+
+        try {
+            FileInputStream fis = new FileInputStream(fileGameList);
+            InputStreamReader isr = new InputStreamReader(fis);
+            br = new BufferedReader(isr);
+
+        } catch (FileNotFoundException fne) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Mensaje de error");
+            alert.setHeaderText("Problemas con el archivo");
+            alert.setContentText("No se pudo leer del archivo");
+            alert.showAndWait();
+        }
+        return br;
+    }
+
+    //Método que determina la cantidad de registros que contiene el archivo
+    public int countData() {
+        //Lectura del archivo
+        BufferedReader br = getBufferedReaderReports();
+
+        int count = 0;
+        String register = "";
+
+        try {
+            while (register != null) {
+                register = br.readLine();
+
+                if (register != null)
+                    count++;
+            }//End while
+        } catch (IOException ioe) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Mensaje de error");
+            alert.setHeaderText("Problemas con el archivo");
+            alert.setContentText("No se pudo leer del archivo");
+            alert.showAndWait();
+        }
+
+        return count;
+    }
+
+
+    public Player[] getDataFiletoArray() {
+
+        Player arrayPlayerData[] = new Player[countData()];
+        int indexArray = 0;
+
+        BufferedReader br = getBufferedReaderReports();
+
+        try {
+            String register = br.readLine();
+
+            while (register != null) {
+                StringTokenizer sT = new StringTokenizer(register, ";");
+
+                String Player = sT.nextToken();
+                String date = sT.nextToken();
+                String durationTime = sT.nextToken();
+                String totalMovements = sT.nextToken();
+
+
+                Player jugador = new Player(Player,date,durationTime,totalMovements);
+                arrayPlayerData[indexArray] = jugador;
+                indexArray++;
+
+                register = br.readLine();
+
+            }//End while
+        } catch (IOException ioe) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Mensaje de error");
+            alert.setHeaderText("Problemas con el archivo");
+            alert.setContentText("No se pudo leer del archivo");
+            alert.showAndWait();
+        }
+
+        return arrayPlayerData;
+    }
+    public ObservableList<Player> getDataTableView() {
+
+        ArrayList arrayPlayers = new ArrayList();
+
+        Player tempPlayer[] = getDataFiletoArray();
+
+        for (int i = 0; i < tempPlayer.length; i++)
+            arrayPlayers.add(tempPlayer[i]);
+
+        ObservableList<Player> obListDataPlayers= FXCollections.observableArrayList(arrayPlayers);
+
+        return obListDataPlayers;
+    }
+
+
+
+
+
+
 }
