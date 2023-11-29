@@ -231,14 +231,19 @@ public Scene getSceneCredits() {
     // etiquetas de créditos
     Label labelCredits = creditsLabels("Créditos", 45);
     labelCredits.setAlignment(Pos.CENTER);
-    Label labelCredit1 = creditsLabels("Proyecto desarrolado por: ",30);
+    Label labelCredit1 = creditsLabels("Proyecto desarrolado por: ",25);
     Label labelCredit2 = creditsLabels("""
             Alexander Fallas Sanabria C32838
             Jason Quesada Gómez C36213
-            Fabian Quesada Cordero C36202""", 30);
+            Fabian Quesada Cordero C36202""", 25);
 
-    Label labelCredit3 = creditsLabels("Proyecto del curso IF2000", 30);
-    Label labelCredit4 = creditsLabels("Año: 2023", 30);
+    Label labelCredit3 = creditsLabels("Curso IF2000", 20);
+    Label labelCredit4 = creditsLabels("Año: 2023", 20);
+    Label labelCredit5 = creditsLabels("Taken Game", 20);
+    Label labelCredit6 = creditsLabels("Ultima actualización: 29/11/2023", 20);
+    Label labelCredit7 = creditsLabels("Tamaño: ", 20);
+    Label labelCredit8 = creditsLabels("Versión: ", 20);
+    Label labelCredit9 = creditsLabels("Desarrollado en JavaFx:", 20);
 
     Image backgroundImage = new Image("Fondo3.png.jpg");
 
@@ -255,7 +260,7 @@ public Scene getSceneCredits() {
 
 
     // Agrega las etiquetas al contenedor VBox
-    vBoxCredits.getChildren().addAll( labelCredits, labelCredit1, labelCredit2, labelCredit3,labelCredit4);
+    vBoxCredits.getChildren().addAll( labelCredits, labelCredit1, labelCredit2, labelCredit3,labelCredit5,labelCredit6,labelCredit7,labelCredit8,labelCredit9);
 
     // Crea la escena de créditos
     BorderPane  borderPane_menu_and_welcome = new BorderPane();
@@ -433,22 +438,7 @@ public Scene getSceneCredits() {
 
 
 
-
-    // botón de "Return" para volver al menú
-    Button returnButton = new Button("Return");
-
-    returnButton.setStyle("-fx-border-width: 2; " +
-            "-fx-border-color: #000000; " +
-            "-fx-text-fill: #000000; " +
-            "-fx-border-radius: 10; " +
-            "-fx-background-radius: 10;"+
-            "-fx-background-color: #FFFFFF;");
-
-    returnButton.setFont(Font.font("Comic Sans MS", 26));
-
-    // Asigna un evento al botón para volver al menú principal y cerrar las instrucciones
-        returnButton.setOnAction(event -> stage.setScene(getSeceneMenu()));
-    instructionsPane.getChildren().addAll(instructionLabels,returnButton);
+    instructionsPane.getChildren().addAll(instructionLabels);
     // Agrega el botón al contenedor de instrucciones
 
     // Configura la escena y muestra el escenario de instrucciones
