@@ -9,8 +9,3 @@ AKa;Date: 2023-11-28 23:57:41;Time:0m 19s;Movements: 26
 Fabian;Date: 2023-11-29 02:08:43;Time:0m 19s; Movements: 20
 aaqq;Date: 2023-11-29 02:10:26;Time:0m 14s; Movements: 25
 aqqws;Date: 2023-11-29 02:12:17;Time:0m 18s; Movements: 27
-Prueba1;Date: 2023-11-29 16:38:02;Time:0m 19s; Movements: 27
-;Date: 2023-11-29 16:50:51;Time:1m 40s; Movements: 218
-Alex;Date: 2023-11-29 16:52:02;Time:0m 5s; Movements: 5
-Alex;Date: 2023-11-29 16:54:50;Time:2m 31s; Movements: 323
-Alex;Date: 2023-11-29 16:54:58;Time:2m 39s; Movements: 325

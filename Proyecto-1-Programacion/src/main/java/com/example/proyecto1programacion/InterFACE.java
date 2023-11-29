@@ -830,6 +830,11 @@ public Scene getSceneCredits() {
         btt_playAgain.setOnAction(actionEvent -> {
 
             guardarDatosEnArchivo(); // Guardar datos antes de volver a jugar
+            // Detener y reiniciar el cronómetro
+            reiniciarCronometroDesdeCero(timeLabel);
+            // Reiniciar variables
+            contadorMovimientos = 0;
+            labelMovimientos.setText("Movements:\n0");
             generador.Board = new int[4][4];
             generador.StartBoard();
             MatrixGame = generador.Board;
