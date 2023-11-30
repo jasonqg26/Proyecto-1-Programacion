@@ -8,3 +8,8 @@ Fabian;Date: 2023-11-27 01:12:55;Time:1m 41s; Movements: 163
 Fabian;Date: 2023-11-28 09:34:43;Time:4m 38s; Movements: 432
 Fabian;Date: 2023-11-26 04:59:09;Time:3m 52s; Movements: 330
 Fabian;Date: 2023-11-29 22:59:59;Time:3m 01s; Movements: 299
+Jason;Date: 2023-11-29 23:45:24;Time:2m 09s; Movements: 242
+Jason;Date: 2023-11-29 23:55:28;Time:1m 32s; Movements: 193
+Jason;Date: 2023-11-28 07:07:07;Time:1m 07s; Movements: 177
+Jason;Date: 2023-11-27 14:56:21;Time:2m 53s; Movements: 272
+Jason;Date: 2023-11-30 09:34:02;Time:2m 8s; Movements: 202
