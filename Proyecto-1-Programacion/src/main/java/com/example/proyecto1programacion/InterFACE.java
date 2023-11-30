@@ -1152,6 +1152,10 @@ public Scene getSceneCredits() {
 
 
     public Scene getTop10List (){
+        //Obtene los jugadores directamente de la lógica
+        ObservableList<Player> players = logicFiles.getDataTableView();
+        //Ordena los jugadores por fecha antes de mostrarlos
+        Collections.sort(players, Comparator.comparing(Player::getTotalMovements));
 
         VBox vB_top10List = new VBox();
         vB_top10List.setSpacing(10);
@@ -1164,14 +1168,24 @@ public Scene getSceneCredits() {
         tabletop10List.setEditable(false);
 
         TableColumn tc_playerName = new TableColumn("Player");
-        tc_playerName.setPrefWidth(200);
+        tc_playerName.setPrefWidth(175);
+        TableColumn tc_dateGame = new TableColumn("Date");
+        tc_dateGame.setPrefWidth(175);
+        TableColumn tc_durationTime = new TableColumn("Duration time");
+        tc_durationTime.setPrefWidth(175);
         TableColumn tc_totalMovements = new TableColumn("Total movements");
-        tc_totalMovements.setPrefWidth(500);
+        tc_totalMovements.setPrefWidth(175);
 
-        tabletop10List.getColumns().addAll(tc_playerName,tc_totalMovements);
+        tabletop10List.getColumns().addAll(tc_playerName,tc_dateGame, tc_durationTime,tc_totalMovements);
 
 
+        tc_playerName.setCellValueFactory(new PropertyValueFactory<>("player"));
+        tc_dateGame.setCellValueFactory(new PropertyValueFactory<>("date"));
+        tc_durationTime.setCellValueFactory(new PropertyValueFactory<>("durationTime"));
+        tc_totalMovements.setCellValueFactory(new PropertyValueFactory<>("totalMovements"));
 
+
+        tabletop10List.setItems(players);
 
         vB_top10List.getChildren().addAll(lb_top10ListName, tabletop10List);
 
