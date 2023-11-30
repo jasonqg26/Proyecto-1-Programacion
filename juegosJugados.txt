@@ -1,3 +1,10 @@
 Alex;Date: 2023-11-29 16:54:50;Time:2m 31s; Movements: 323
 Alex;Date: 2023-11-29 16:54:58;Time:2m 39s; Movements: 325
 Alex;Date: 2023-11-29 17:07:00;Time:0m 54s; Movements: 131
+Alex;Date: 2023-11-29 17:50:54;Time:1m 20s; Movements: 198
+Alex;Date: 2023-11-28 16:23:45;Time:2m 00s; Movements: 220
+Fabian;Date: 2023-11-27 12:01:05;Time:2m 20s; Movements: 250
+Fabian;Date: 2023-11-27 01:12:55;Time:1m 41s; Movements: 163
+Fabian;Date: 2023-11-28 09:34:43;Time:4m 38s; Movements: 432
+Fabian;Date: 2023-11-26 04:59:09;Time:3m 52s; Movements: 330
+Fabian;Date: 2023-11-29 22:59:59;Time:3m 01s; Movements: 299
