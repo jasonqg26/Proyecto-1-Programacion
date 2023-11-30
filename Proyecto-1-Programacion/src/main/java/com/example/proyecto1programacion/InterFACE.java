@@ -243,9 +243,9 @@ public Scene getSceneCredits() {
     Label labelCredit4 = creditsLabels("Año: 2023", 20);
     Label labelCredit5 = creditsLabels("Taken Game", 20);
     Label labelCredit6 = creditsLabels("Ultima actualización: 29/11/2023", 20);
-    Label labelCredit7 = creditsLabels("Tamaño: ", 20);
-    Label labelCredit8 = creditsLabels("Versión: ", 20);
-    Label labelCredit9 = creditsLabels("Desarrollado en JavaFx:", 20);
+    Label labelCredit7 = creditsLabels("Tamaño: 2,77 MB ", 20);
+    Label labelCredit8 = creditsLabels("Versión: DemoFinal ", 20);
+    Label labelCredit9 = creditsLabels("Desarrollado en JavaFx", 20);
 
     Image backgroundImage = new Image("Fondo3.png.jpg");
 
