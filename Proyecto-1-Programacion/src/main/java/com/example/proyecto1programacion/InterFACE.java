@@ -5,6 +5,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -1156,6 +1157,9 @@ public Scene getSceneCredits() {
         ObservableList<Player> players = logicFiles.getDataTableView();
         //Ordena los jugadores por fecha antes de mostrarlos
         Collections.sort(players, Comparator.comparing(Player::getTotalMovements));
+        if (players.size() > 10) {
+            players = FXCollections.observableArrayList(players.subList(0, 10));
+        }
 
         VBox vB_top10List = new VBox();
         vB_top10List.setSpacing(10);
